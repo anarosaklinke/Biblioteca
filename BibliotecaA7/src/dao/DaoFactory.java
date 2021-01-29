@@ -2,11 +2,17 @@ package dao;
 
 public class DaoFactory {
 
+
+
     private DaoFactory() {
     }
 
     public static LoginDAO getLoginDAO() {
         return new LoginDAOImpl();
+    }
+    
+    public static ClassificacaoDAO getClassificacaoDAO() {
+        return new ClassificacaoDAOImpl();
     }
 
     public static ContatoDAO getContatoDAO() {
@@ -21,7 +27,7 @@ public class DaoFactory {
         return new PessoaDAOImpl();
     }
 
-    public static LivroDAO getOcorrenciasDAO() {
+    public static LivroDAO getLivroDAO() {
         return new LivroDAOImpl();
     }
 

@@ -5,7 +5,6 @@
  */
 package gui;
 
-import java.text.Normalizer;
 import java.text.ParseException;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
@@ -13,6 +12,7 @@ import model.Endereco;
 import service.EnderecoService;
 import service.PessoaService;
 import service.ServiceFactory;
+import utils.validacao;
 
 /**
  *
@@ -27,16 +27,6 @@ public class CadastrarEndereco extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-    private static boolean isInteger(String str) {
-        return str != null && str.matches("[0-9]*");
-    }
-
-    private static String formatString(String s) {
-        String temp = Normalizer
-                .normalize(s, Normalizer.Form.NFD)
-                .replaceAll("[^\\p{ASCII}]", "");
-        return s;
-    }
 
     private void cadEnd() {
         String cidadeT = cidade.getText().trim();
@@ -57,7 +47,7 @@ public class CadastrarEndereco extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Os campos com são OBRIGATÒRIOS");
         } else {
 
-            if (isInteger(numeroT)) {
+            if (validacao.isInteger(numeroT)) {
 
                 EnderecoService entity = ServiceFactory.getEnderecoService();
 
@@ -70,13 +60,13 @@ public class CadastrarEndereco extends javax.swing.JInternalFrame {
 
                 Endereco endereco = new Endereco(idEndereco);
 
-                endereco.setCep(formatString(cepT));
-                endereco.setCidade(formatString(cidadeT));
-                endereco.setEstado(formatString(estadoT));
-                endereco.setNumero(Integer.parseInt(formatString(numeroT)));
-                endereco.setRua(formatString(ruaT));
-                endereco.setPais(formatString(paisT));
-                endereco.setBairro(formatString(bairroT));
+                endereco.setCep(validacao.formatString(cepT));
+                endereco.setCidade(validacao.formatString_E(cidadeT));
+                endereco.setEstado(validacao.formatString_E(estadoT));
+                endereco.setNumero(Integer.parseInt(validacao.formatString_E(numeroT)));
+                endereco.setRua(validacao.formatString_E(ruaT));
+                endereco.setPais(validacao.formatString_E(paisT));
+                endereco.setBairro(validacao.formatString_E(bairroT));
 
                 PessoaService entity2 = ServiceFactory.getPessoaService();
 

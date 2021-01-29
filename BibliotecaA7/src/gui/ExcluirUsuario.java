@@ -8,8 +8,6 @@ package gui;
 import javax.swing.JOptionPane;
 import model.Contato;
 import model.Endereco;
-import model.Login;
-import model.Pessoa;
 import service.ContatoService;
 import service.EnderecoService;
 import service.LivroService;

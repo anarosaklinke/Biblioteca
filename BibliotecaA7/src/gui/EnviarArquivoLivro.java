@@ -21,6 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Livro;
 import service.LivroService;
 import service.ServiceFactory;
+import utils.validacao;
 
 /**
  *
@@ -33,37 +34,6 @@ public class EnviarArquivoLivro extends javax.swing.JInternalFrame {
      */
     public EnviarArquivoLivro() {
         initComponents();
-    }
-
-    private static String formatString(String s) {
-        String temp = Normalizer
-                .normalize(s, Normalizer.Form.NFD)
-                .replaceAll("[^\\p{ASCII}]", "");
-        return s;
-    }
-
-    private static Livro valida(long idIsbn, String autores, String isbn,
-            String semelhante, String data, String titulo) {
-
-        Livro livro = null;
-
-        if (autores.isEmpty()
-                || isbn.isEmpty()
-                || semelhante.isEmpty()
-                || data.isEmpty()
-                || titulo.isEmpty()) {
-            return livro;
-        } else {
-            livro = new Livro(idIsbn);
-            livro.setAutores(autores);
-            livro.setSemelhantes(semelhante);
-            livro.setDataPublicacao(data);
-            livro.setTitulo(titulo);
-            livro.setIsbn(isbn);
-
-        }
-
-        return livro;
     }
 
     private void importarDados(String diretorio) throws FileNotFoundException {
@@ -91,11 +61,11 @@ public class EnviarArquivoLivro extends javax.swing.JInternalFrame {
                         String[][] dados = new String[i][6];
                         i = 0;
                         while (scanner.hasNext()) {
-                            dados[i][0] = formatString(scanner.next().trim());
-                            dados[i][1] = formatString(scanner.next().trim());
-                            dados[i][2] = formatString(scanner.next().trim());
-                            dados[i][3] = formatString(scanner.next().trim());
-                            dados[i][4] = formatString(scanner.next().trim());
+                            dados[i][0] = validacao.formatString(scanner.next().trim());
+                            dados[i][1] = validacao.formatString(scanner.next().trim());
+                            dados[i][2] = validacao.formatString(scanner.next().trim());
+                            dados[i][3] = validacao.formatString(scanner.next().trim());
+                            dados[i][4] = validacao.formatString(scanner.next().trim());
                             i++;
                         }
 
@@ -164,7 +134,7 @@ public class EnviarArquivoLivro extends javax.swing.JInternalFrame {
 
                 if (idIsbn == -1) {
                     idIsbn = entity.recuperaUltimoId() + 1;
-                    livro = valida(idIsbn,
+                    livro = validacao.valida(idIsbn,
                             (String) tabelaLivros.getModel().getValueAt(i, 0),
                             (String) tabelaLivros.getModel().getValueAt(i, 1),
                             (String) tabelaLivros.getModel().getValueAt(i, 4),
@@ -179,7 +149,7 @@ public class EnviarArquivoLivro extends javax.swing.JInternalFrame {
                         break;
                     }
                 } else {
-                    livro = valida(idIsbn,
+                    livro = validacao.valida(idIsbn,
                             (String) tabelaLivros.getModel().getValueAt(i, 0),
                             (String) tabelaLivros.getModel().getValueAt(i, 1),
                             (String) tabelaLivros.getModel().getValueAt(i, 4),

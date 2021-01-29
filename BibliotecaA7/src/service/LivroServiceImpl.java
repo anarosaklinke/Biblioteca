@@ -10,7 +10,7 @@ public class LivroServiceImpl implements LivroService {
     private final LivroDAO livroDAO;
 
     public LivroServiceImpl() {
-        this.livroDAO = DaoFactory.getOcorrenciasDAO();
+        this.livroDAO = DaoFactory.getLivroDAO();
     }
 
     @Override

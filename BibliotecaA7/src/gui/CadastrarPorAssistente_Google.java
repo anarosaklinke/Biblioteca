@@ -5,37 +5,26 @@
  */
 package gui;
 
-import java.io.BufferedReader;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.net.ssl.HttpsURLConnection;
-
+import javax.swing.JOptionPane;
 import model.Classificacao;
 import model.Livro;
+import org.jsoup.Jsoup;
 import service.ClassificacaoService;
 import service.LivroService;
 import service.ServiceFactory;
 import utils.validacao;
 
-import javax.swing.JOptionPane;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-/**
- *
- * @author PICHAU
- */
-public class CadastrarPorAssistente extends javax.swing.JInternalFrame {
+public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form CadastrarPorAssistente
-     */
-    public CadastrarPorAssistente() {
+    public CadastrarPorAssistente_Google() {
         initComponents();
     }
 
@@ -60,84 +49,79 @@ public class CadastrarPorAssistente extends javax.swing.JInternalFrame {
 
     }
 
-    public static String getJSON(String url) {
-        HttpsURLConnection con = null;
+    public void consultar() {
+
+    }
+
+    private class Container {
+
+        Details details;
+    }
+
+    private class autor {
+
+        private String key;
+        private String name;
+    }
+
+    private class Details {
+
+        String title;
+        String publish_date;
+        private List<autor> authors;
+    }
+
+    private void JsonClass(String isbn) {
+
+        String titulo = " ", autor = " ", dataPub = " ";
+
+        org.jsoup.nodes.Document docKb = null;
         try {
-            URL u = new URL(url);
-            con = (HttpsURLConnection) u.openConnection();
+            docKb = Jsoup
+                    .connect("https://openlibrary.org/api/books?bibkeys=ISBN:" + isbn + "&jscmd=details&format=json")
+                    .ignoreContentType(true).get();
 
-            con.connect();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            br.close();
-            return sb.toString();
-
-        } catch (MalformedURLException ex) {
-            ex.printStackTrace();
         } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (con != null) {
-                try {
-                    con.disconnect();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-        return null;
-    }
-
-    private void JsonClass(String isbn) throws IOException {
-
-        JSONObject obj;
-        String urlAutor = null;
-        String pubData = " ";
-        String titulo = " ";
-        String autores = " ";
-        String json = getJSON("https://openlibrary.org/isbn/" + isbn + ".json");
-        JSONArray results_arr = null;
-        try {
-            obj = new JSONObject(json);
-
-            if (obj.has("authors")) {
-                results_arr = obj.getJSONArray("authors");
-            }
-
-            if (obj.has("publish_date")) {
-                pubData = obj.getString("publish_date");
-            }
-            if (obj.has("title")) {
-                titulo = obj.getString("title");
-            }
-
-            if (results_arr != null) {
-                int n = results_arr.length();
-                for (int i = 0; i < n; ++i) {
-                    // get the place id of each object in JSON (Google Search API)
-                    urlAutor = results_arr.getJSONObject(i).getString("key");
-                    json = getJSON("https://openlibrary.org/" + urlAutor + ".json");
-                    obj = new JSONObject(json);
-
-                    autores = obj.getString("name") + "/ " + autores;
-                }
-            }
-
-        } catch (Exception e) {
-            System.err.println(e);
+            Logger.getLogger(CadastrarPorAssistente_Google.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        titulo1.setText(titulo);
-        isbn1.setText(isbn);
-        dataPub1.setText(pubData);
-        autores1.setText(autores);
+        if (docKb != null) {
+            String json;
+            json = docKb.body().text();
 
+            if (!json.isEmpty()) {
+
+                java.lang.reflect.Type type
+                        = new TypeToken<Map<String, Container>>() {
+                        }.getType();
+
+                Map<String, Container> fullJsonObject = new Gson().fromJson(json, type);
+
+                for (Map.Entry<String, Container> entry : fullJsonObject.entrySet()) {
+                    titulo = entry.getValue().details.title;
+                    dataPub = entry.getValue().details.publish_date;
+
+                    if (entry.getValue().details.authors != null) {
+                        for (int i = 0; i < entry.getValue().details.authors.size(); i++) {
+                            if (!(entry.getValue().details.authors.get(i).name).isEmpty()) {
+                                autor = entry.getValue().details.authors.get(i).name + "/ " + autor;
+                            }
+                        }
+                    }
+                }
+                titulo1.setText(titulo);
+                isbn1.setText(isbn);
+                dataPub1.setText(dataPub);
+                autores.setText(autor);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "ISBN não Encontrado - Tente Novamente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ISBN não Encontrado - Tente Novamente");
+        }
     }
+
 
     private void cadastrarLivro(String titulo, String dataPub, String autor, String isbn, String semelhante) {
         LivroService entity = ServiceFactory.getLivroService();
@@ -191,23 +175,18 @@ public class CadastrarPorAssistente extends javax.swing.JInternalFrame {
         if (isbnT.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Os campos com são OBRIGATÒRIOS");
         } else {
-            try {
-                JsonClass(validacao.formatString(isbnT));
-            } catch (IOException ex) {
-                Logger.getLogger(CadastrarPorAssistente.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            JsonClass(validacao.formatString(isbnT));
         }
 
     }
 
-    public static void mudaSemelhante(String isbnS, String tituloS,
+    public static void mudaSemelhante(String isbnS, String tituloS, 
             String dataS, String autor) {
         semelhante.setText(isbnS);
         titulo1.setText(tituloS);
         dataPub1.setText(dataS);
-        autores1.setText(autor);
+        autores.setText(autor);
     }
-
     private void selecionarSemelhante() {
         SelecionarSemelhante selecionar = new SelecionarSemelhante(this);
         getParent().add(selecionar);
@@ -230,7 +209,7 @@ public class CadastrarPorAssistente extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         isbn1 = new javax.swing.JTextField();
-        autores1 = new javax.swing.JTextField();
+        autores = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         dataPub1 = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -279,7 +258,7 @@ public class CadastrarPorAssistente extends javax.swing.JInternalFrame {
 
         isbn1.setEditable(false);
 
-        autores1.setEditable(false);
+        autores.setEditable(false);
 
         jLabel12.setText("Autores");
 
@@ -351,7 +330,7 @@ public class CadastrarPorAssistente extends javax.swing.JInternalFrame {
                             .addComponent(isbn1)
                             .addComponent(titulo1)
                             .addComponent(dataPub1)
-                            .addComponent(autores1)
+                            .addComponent(autores)
                             .addComponent(classifica, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 82, Short.MAX_VALUE))
         );
@@ -378,7 +357,7 @@ public class CadastrarPorAssistente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(autores1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(autores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -410,7 +389,7 @@ public class CadastrarPorAssistente extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
 
-        cadastrarLivro(validacao.formatString(titulo1.getText()), validacao.formatString(dataPub1.getText()), validacao.formatString(autores1.getText()), validacao.formatString_E(isbn1.getText()), validacao.formatString(semelhante.getText().trim()));
+        cadastrarLivro(titulo1.getText(), dataPub1.getText(), autores.getText(), validacao.formatString_E(isbn1.getText()), validacao.formatString(semelhante.getText().trim()));
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void dataPub1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataPub1ActionPerformed
@@ -428,7 +407,7 @@ public class CadastrarPorAssistente extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JTextField autores1;
+    private static javax.swing.JTextField autores;
     private javax.swing.JComboBox<String> classifica;
     private static javax.swing.JFormattedTextField dataPub1;
     private javax.swing.JTextField isbn;

@@ -8,6 +8,10 @@ public class ServiceFactory {
         return new PessoaServiceImpl();
     }
     
+    public static ClassificacaoService getClassificacaoService(){
+        return new ClassificacaoServiceImpl();
+    }
+    
     public static ContatoService getContatoService(){
         return new ContatoServiceImpl();
     }

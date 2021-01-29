@@ -5,7 +5,6 @@
  */
 package gui;
 
-import java.text.Normalizer;
 import java.text.ParseException;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
@@ -13,6 +12,7 @@ import model.Contato;
 import service.ContatoService;
 import service.PessoaService;
 import service.ServiceFactory;
+import utils.validacao;
 
 /**
  *
@@ -27,18 +27,11 @@ public class CadastrarContato extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-    private static String formatString(String s) {
-        String temp = Normalizer
-                .normalize(s, Normalizer.Form.NFD)
-                .replaceAll("[^\\p{ASCII}]", "");
-        return s;
-    }
-    
-    private void cadContato(){
-                if (( residencial.getText().trim().isEmpty())
-            || ( comercial.getText().trim().isEmpty())
-            || ( email.getText().trim().isEmpty())
-            || (celular.getText().trim().isEmpty())) {
+    private void cadContato() {
+        if ((residencial.getText().trim().isEmpty())
+                || (comercial.getText().trim().isEmpty())
+                || (email.getText().trim().isEmpty())
+                || (celular.getText().trim().isEmpty())) {
             JOptionPane.showMessageDialog(null, "Os campos com são OBRIGATÒRIOS");
         } else {
 
@@ -53,24 +46,24 @@ public class CadastrarContato extends javax.swing.JInternalFrame {
 
             Contato contato = new Contato(idContato);
 
-            contato.setCelular(formatString(celular.getText().trim()));
-            contato.setEmail(formatString(email.getText().trim()));
-            contato.setTelCom(comercial.getText().trim());
-            contato.setTelRes(formatString(residencial.getText()));
+            contato.setCelular(validacao.formatString(celular.getText().trim()));
+            contato.setEmail(validacao.formatString(email.getText().trim()));
+            contato.setTelCom(validacao.formatString(comercial.getText().trim()));
+            contato.setTelRes(validacao.formatString(residencial.getText()));
 
             PessoaService entity2 = ServiceFactory.getPessoaService();
 
-            long idPessoa = entity2.idCPF(cpf.getText() );
-            
-            contato.setIdPessoa( idPessoa );
-            
-            Contato temp = entity.recuperaContatoPessoa( idPessoa );
+            long idPessoa = entity2.idCPF(cpf.getText());
+
+            contato.setIdPessoa(idPessoa);
+
+            Contato temp = entity.recuperaContatoPessoa(idPessoa);
 
             boolean b = false;
-            
-            if(temp != null){
+
+            if (temp != null) {
                 b = entity.update(contato);
-            }else{
+            } else {
                 b = entity.save(contato);
             }
 
@@ -84,6 +77,7 @@ public class CadastrarContato extends javax.swing.JInternalFrame {
 
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

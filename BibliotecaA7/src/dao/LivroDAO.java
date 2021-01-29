@@ -6,9 +6,9 @@ import model.Livro;
 public interface LivroDAO {
 
     final String INSERT = "INSERT INTO Livro("
-            + "idLivro, dataPublicacao, isbn, autores, semelhantes, titulo,"
-            + "Pessoa_idPessoa) "
-            + "VALUES (?, ?, ?, ?, ?, ? ,?)";
+            + "idLivro, dataPublicacao, isbn, autores, semelhantes, titulo, "
+            + "Pessoa_idPessoa, Classificacao_idClassificacao) "
+            + "VALUES (?, ?, ?, ?, ?, ? ,?, ?)";
 
     final String RECUPERA_ID = "select Max(idLivro) from livro";
 
@@ -21,12 +21,12 @@ public interface LivroDAO {
             + "Pessoa_idPessoa = ?";
 
     final String UPDATE = "UPDATE Livro SET "
-            + "titulo = ?, "
+            + "titulo = ?, Classificacao_idClassificacao = ?, "
             + "dataPublicacao = ?, autores = ?, Pessoa_idPessoa = ? "
             + "WHERE idLivro = ? ";
     
     final String UPDATE_S = "UPDATE Livro SET "
-            + "titulo = ?, semelhantes = ?, "
+            + "titulo = ?, semelhantes = ?, Classificacao_idClassificacao = ?, "
             + "dataPublicacao = ?, autores = ?, Pessoa_idPessoa = ? "
             + "WHERE idLivro = ? ";
 
@@ -38,21 +38,24 @@ public interface LivroDAO {
             + "WHERE isbn = ? ";
 
     final String UPDATE_ISBN_S = "UPDATE Livro SET "
-            + "titulo = ?, semelhantes = ?, "
+            + "titulo = ?, semelhantes = ?, Classificacao_idClassificacao = ?, "
             + " dataPublicacao = ?, autores = ? "
             + "WHERE isbn = ? ";
     
     final String UPDATE_ISBN = "UPDATE Livro SET "
-            + "titulo = ?, "
+            + "titulo = ?, Classificacao_idClassificacao = ?, "
             + " dataPublicacao = ?, autores = ? "
             + "WHERE isbn = ? ";
     
-    final String CHAVE = "SELECT * FROM livro WHERE "
-            + "dataPublicacao LIKE ? OR "
+    final String CHAVE = "SELECT * FROM livro "
+            + "INNER JOIN classificacao ON"
+            + "(dataPublicacao LIKE ? OR "
             + "isbn LIKE ? OR "
             + "autores LIKE ? OR "
             + "semelhantes LIKE ? OR "
-            + "titulo LIKE ? ";
+            + "titulo LIKE ? OR "
+            + "classificacao.nome LIKE ? ) AND "
+            + "livro.Classificacao_idClassificacao  = classificacao.idClassificacao ";
 
     public boolean save(Livro livro);
 

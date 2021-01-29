@@ -24,6 +24,9 @@ public class LivroDAOImpl implements LivroDAO {
 
                 con.setAutoCommit(false);
 
+                pstm = con.prepareStatement("SET FOREIGN_KEY_CHECKS=0");
+                pstm.execute("SET FOREIGN_KEY_CHECKS=0");
+                
                 pstm = con.prepareStatement(INSERT);
                 pstm.setLong(1, livro.getIdLivro());
                 pstm.setString(2, livro.getDataPublicacao());
@@ -32,8 +35,11 @@ public class LivroDAOImpl implements LivroDAO {
                 pstm.setString(5, livro.getSemelhantes());
                 pstm.setString(6, livro.getTitulo());
                 pstm.setLong(7, livro.getIdPessoa());
+                pstm.setLong(8, livro.getIdClassificacao());
 
                 pstm.executeUpdate();
+                
+                pstm.execute("SET FOREIGN_KEY_CHECKS=1");
 
                 con.commit();
                 con.close();
@@ -128,6 +134,7 @@ public class LivroDAOImpl implements LivroDAO {
                     livro.setIsbn(res.getNString("isbn"));
                     livro.setSemelhantes(res.getNString("semelhantes"));
                     livro.setTitulo(res.getNString("titulo"));
+                    livro.setIdClassificacao(res.getLong("Classificacao_idClassificacao"));
                     temp.add(livro);
                 }
                 con.close();
@@ -156,18 +163,21 @@ public class LivroDAOImpl implements LivroDAO {
                 pstm.setString(3, chave);
                 pstm.setString(4, chave);
                 pstm.setString(5, chave);
-
+                pstm.setString(6, chave);
+                
                 res = pstm.executeQuery();
+                
 
                 Livro livro;
                 while (res != null && res.next()) {
-                    livro = new Livro(res.getLong("idLivro"));
+                    livro = new Livro(res.getLong("idLivro"));                    
                     livro.setAutores(res.getNString("autores"));
                     livro.setDataPublicacao(res.getNString("dataPublicacao"));
                     livro.setIdPessoa(res.getLong("Pessoa_idPessoa"));
                     livro.setIsbn(res.getNString("isbn"));
                     livro.setSemelhantes(res.getNString("semelhantes"));
                     livro.setTitulo(res.getNString("titulo"));
+                    livro.setIdClassificacao(res.getLong("Classificacao_idClassificacao"));
                     temp.add(livro);
                 }
                 con.close();
@@ -203,6 +213,7 @@ public class LivroDAOImpl implements LivroDAO {
                     livro.setIsbn(res.getNString("isbn"));
                     livro.setSemelhantes(res.getNString("semelhantes"));
                     livro.setTitulo(res.getNString("titulo"));
+                    livro.setIdClassificacao(res.getLong("Classificacao_idClassificacao"));
                     temp.add(livro);
                 }
                 con.close();
@@ -258,18 +269,20 @@ public class LivroDAOImpl implements LivroDAO {
                 if (livro.getSemelhantes().isEmpty()) {
                     pstm = con.prepareStatement(UPDATE);
                     pstm.setString(1, livro.getTitulo());
-                    pstm.setString(2, livro.getDataPublicacao());
-                    pstm.setString(3, livro.getAutores());
-                    pstm.setLong(4, livro.getIdPessoa());
-                    pstm.setLong(5, livro.getIdLivro());
-                } else {
-                    pstm = con.prepareStatement(UPDATE_S);
-                    pstm.setString(1, livro.getTitulo());
-                    pstm.setString(2, livro.getSemelhantes());
+                    pstm.setLong(2, livro.getIdClassificacao());
                     pstm.setString(3, livro.getDataPublicacao());
                     pstm.setString(4, livro.getAutores());
                     pstm.setLong(5, livro.getIdPessoa());
                     pstm.setLong(6, livro.getIdLivro());
+                } else {
+                    pstm = con.prepareStatement(UPDATE_S);
+                    pstm.setString(1, livro.getTitulo());
+                    pstm.setString(2, livro.getSemelhantes());
+                    pstm.setLong(3, livro.getIdClassificacao());
+                    pstm.setString(4, livro.getDataPublicacao());
+                    pstm.setString(5, livro.getAutores());
+                    pstm.setLong(6, livro.getIdPessoa());
+                    pstm.setLong(7, livro.getIdLivro());
                 }
 
                 pstm.execute();
@@ -301,16 +314,18 @@ public class LivroDAOImpl implements LivroDAO {
                 if (livro.getSemelhantes().isEmpty()) {
                     pstm = con.prepareStatement(UPDATE_ISBN);
                     pstm.setString(1, livro.getTitulo());
-                    pstm.setString(2, livro.getDataPublicacao());
-                    pstm.setString(3, livro.getAutores());
-                    pstm.setString(4, livro.getIsbn());
+                    pstm.setLong(2, livro.getIdClassificacao());
+                    pstm.setString(3, livro.getDataPublicacao());
+                    pstm.setString(4, livro.getAutores());
+                    pstm.setString(5, livro.getIsbn());
                 } else {
                     pstm = con.prepareStatement(UPDATE_ISBN_S);
                     pstm.setString(1, livro.getTitulo());
                     pstm.setString(2, livro.getSemelhantes());
-                    pstm.setString(3, livro.getDataPublicacao());
-                    pstm.setString(4, livro.getAutores());
-                    pstm.setString(5, livro.getIsbn());
+                    pstm.setLong(3, livro.getIdClassificacao());
+                    pstm.setString(4, livro.getDataPublicacao());
+                    pstm.setString(5, livro.getAutores());
+                    pstm.setString(6, livro.getIsbn());
                 }
 
                 pstm.execute();
@@ -371,9 +386,12 @@ public class LivroDAOImpl implements LivroDAO {
             try {
 
                 con.setAutoCommit(false);
+                
 
                 pstm = con.prepareStatement(EXCLUIR);
                 pstm.setString(1, isbn);
+                
+                
 
                 pstm.executeUpdate();
 
@@ -386,5 +404,7 @@ public class LivroDAOImpl implements LivroDAO {
         }
         return b;
     }
+    
+    
 
 }

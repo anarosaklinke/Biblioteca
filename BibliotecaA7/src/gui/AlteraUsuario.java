@@ -6,12 +6,9 @@
 package gui;
 
 import java.sql.Date;
-import java.text.Normalizer;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
@@ -20,6 +17,8 @@ import model.Pessoa;
 import service.LoginService;
 import service.PessoaService;
 import service.ServiceFactory;
+
+import utils.validacao;
 
 /**
  *
@@ -34,22 +33,7 @@ public class AlteraUsuario extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-    private static String formatString(String s) {
-        String temp = Normalizer
-                .normalize(s, Normalizer.Form.NFD)
-                .replaceAll("[^\\p{ASCII}]", "");
-        return s;
-    }
 
-    private static boolean isDateValid(String date) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate d = LocalDate.parse(date, formatter);
-            return true;
-        } catch (DateTimeParseException e) {
-            return false;
-        }
-    }
 
     private void alteraUsuario() {
         PessoaService entity = ServiceFactory.getPessoaService();
@@ -65,14 +49,14 @@ public class AlteraUsuario extends javax.swing.JInternalFrame {
                 || dataTemp.isEmpty()
                 || usuarioTemp.isEmpty()
                 || senhaTemp.isEmpty()
-                || !isDateValid(dataTemp)) {
+                || !validacao.isDateValid(dataTemp)) {
             JOptionPane.showMessageDialog(null, "Dados Inválidos - *dd/mm/AAAA");
         } else {
-            nomeTemp = formatString(nomeTemp);
-            cpfTemp = formatString(cpfTemp);
-            dataTemp = formatString(dataTemp);
-            usuarioTemp = formatString(usuarioTemp);
-            senhaTemp = formatString(senhaTemp);
+            nomeTemp = validacao.formatString_E(nomeTemp);
+            cpfTemp = validacao.formatString(cpfTemp);
+            dataTemp = validacao.formatString(dataTemp);
+            usuarioTemp = validacao.formatString_E(usuarioTemp);
+            senhaTemp = validacao.formatString_E(senhaTemp);
 
             boolean salvar = true;
 

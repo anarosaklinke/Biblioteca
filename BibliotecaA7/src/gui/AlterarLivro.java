@@ -5,11 +5,14 @@
  */
 package gui;
 
-import java.text.Normalizer;
+import java.util.List;
 import javax.swing.JOptionPane;
+import model.Classificacao;
 import model.Livro;
+import service.ClassificacaoService;
 import service.LivroService;
 import service.ServiceFactory;
+import utils.validacao;
 
 /**
  *
@@ -24,11 +27,25 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-    private static String formatString(String s) {
-        String temp = Normalizer
-                .normalize(s, Normalizer.Form.NFD)
-                .replaceAll("[^\\p{ASCII}]", "");
-        return s;
+    public final void categorias() {
+        ClassificacaoService entity = ServiceFactory.getClassificacaoService();
+
+        List<Classificacao> nomes = entity.recuperaClassificacao();
+
+        Classificacao nome;
+
+        String[] dados = new String[nomes.size()];
+
+        for (int i = 0; i < nomes.size(); i++) {
+
+            nome = nomes.get(i);
+
+            dados[i] = nome.getNome();
+        }
+
+        classifica = new javax.swing.JComboBox<>();
+        classifica.setModel(new javax.swing.DefaultComboBoxModel<>(dados));
+
     }
 
     private Livro valida(long idIsbn) {
@@ -36,23 +53,27 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
         Livro livro = null;
         String autoresTemp = autores.getText().trim();
         String isbnTemp = isbn.getText().trim();
-        String semelhanteTemp = semelhantes.getText().trim();
+        String semelhanteTemp = semelhante.getText().trim();
         String dataTemp = dataPub.getText().trim();
         String tituloTemp = titulo.getText().trim();
         System.out.println(autores.getText().trim());
+        String classTemp = (classifica.getSelectedItem()).toString();
 
         if (autoresTemp.isEmpty()
-                || isbnTemp.isEmpty()                
+                || isbnTemp.isEmpty()
                 || dataTemp.isEmpty()
                 || tituloTemp.isEmpty()) {
             return livro;
         } else {
 
-            autoresTemp = formatString(autoresTemp);
-            isbnTemp = formatString(isbnTemp);
-            semelhanteTemp = formatString(semelhanteTemp);
-            dataTemp = formatString(dataTemp);
-            tituloTemp = formatString(tituloTemp);
+            autoresTemp = validacao.formatString(autoresTemp);
+            isbnTemp = validacao.formatString_E(isbnTemp);
+            semelhanteTemp = validacao.formatString(semelhanteTemp);
+            dataTemp = validacao.formatString(dataTemp);
+            tituloTemp = validacao.formatString(tituloTemp);
+
+            ClassificacaoService entity = ServiceFactory.getClassificacaoService();
+            long idClass = entity.verifica(classTemp);
 
             livro = new Livro(idIsbn);
             livro.setAutores(autoresTemp);
@@ -60,6 +81,7 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
             livro.setDataPublicacao(dataTemp);
             livro.setTitulo(tituloTemp);
             livro.setIsbn(isbnTemp);
+            livro.setIdClassificacao(idClass);
 
         }
 
@@ -91,6 +113,20 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
 
     }
 
+    public static void mudaSemelhante(String isbnS, String tituloS,
+            String dataS, String autor) {
+        semelhante.setText(isbnS);
+        titulo.setText(tituloS);
+        dataPub.setText(dataS);
+        autores.setText(autor);
+    }
+
+    private void selecionarSemelhante() {
+        SelecionarSemelhante selecionar = new SelecionarSemelhante(this);
+        getParent().add(selecionar);
+        selecionar.setVisible(true);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -111,8 +147,10 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
         autores = new java.awt.TextField();
         dataPub = new javax.swing.JFormattedTextField();
         atualizarLivro = new java.awt.Button();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        semelhantes = new javax.swing.JTextArea();
+        semelhante = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
+        classifica = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         label2.setText("label2");
 
@@ -148,37 +186,54 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
             }
         });
 
-        semelhantes.setColumns(20);
-        semelhantes.setRows(5);
-        jScrollPane1.setViewportView(semelhantes);
+        semelhante.setEditable(false);
+        semelhante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                semelhanteActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Classificação");
+
+        categorias();
+
+        jButton1.setText("+");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nome5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nome7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(atualizarLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(isbn, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(dataPub, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-                        .addComponent(titulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-                        .addComponent(autores, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addGap(76, 76, 76))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(isbn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(dataPub, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                                    .addComponent(titulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                                    .addComponent(autores, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(classifica, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(atualizarLivro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(semelhante, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))))
+                    .addComponent(jLabel1))
+                .addContainerGap(148, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,14 +254,23 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nome5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dataPub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(nome7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(semelhante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(nome7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(atualizarLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(66, Short.MAX_VALUE))
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(classifica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                        .addComponent(atualizarLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32))))
         );
 
         pack();
@@ -222,20 +286,31 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_atualizarLivroActionPerformed
 
+    private void semelhanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_semelhanteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_semelhanteActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        selecionarSemelhante();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button atualizarLivro;
-    public java.awt.TextField autores;
-    public javax.swing.JFormattedTextField dataPub;
+    public static java.awt.TextField autores;
+    public javax.swing.JComboBox<String> classifica;
+    public static javax.swing.JFormattedTextField dataPub;
     public javax.swing.JLabel isbn;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private java.awt.Label label;
     private java.awt.Label label1;
     private java.awt.Label label2;
     private java.awt.Label nome;
     private java.awt.Label nome5;
     private java.awt.Label nome7;
-    public javax.swing.JTextArea semelhantes;
-    public java.awt.TextField titulo;
+    public static javax.swing.JFormattedTextField semelhante;
+    public static java.awt.TextField titulo;
     // End of variables declaration//GEN-END:variables
 }

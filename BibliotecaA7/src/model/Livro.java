@@ -9,6 +9,8 @@ public class Livro {
     private String autores;
     private String dataPublicacao;
     private String titulo;
+    private int estoque;
+    private long idClassificacao;
 
 
     public Livro(long idLivro) {
@@ -65,6 +67,22 @@ public class Livro {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public int getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(int estoque) {
+        this.estoque = estoque;
+    }
+
+    public long getIdClassificacao() {
+        return idClassificacao;
+    }
+
+    public void setIdClassificacao(long idClassificacao) {
+        this.idClassificacao = idClassificacao;
     }
 
 

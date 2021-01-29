@@ -139,11 +139,12 @@ public class ListaUsuario extends javax.swing.JInternalFrame {
             alterar.cpfOld.setText((String) tabelaUsuario.getModel().getValueAt(tabelaUsuario.getSelectedRow(), 1));
             alterar.cpf.setText((String) tabelaUsuario.getModel().getValueAt(tabelaUsuario.getSelectedRow(), 1));
             alterar.nome.setText((String) tabelaUsuario.getModel().getValueAt(tabelaUsuario.getSelectedRow(), 0));
+            alterar.sexo.setSelectedItem((String) tabelaUsuario.getModel().getValueAt(tabelaUsuario.getSelectedRow(), 5));
 
             if (((String) tabelaUsuario.getModel().getValueAt(tabelaUsuario.getSelectedRow(), 5)).equals("Feminino")) {
                 alterar.sexo.setSelectedIndex(0);
             } else {
-                alterar.sexo.setSelectedIndex(2);
+                alterar.sexo.setSelectedIndex(1);
             }
             alterar.dataNascimento.setText((String) tabelaUsuario.getModel().getValueAt(tabelaUsuario.getSelectedRow(), 3));
 

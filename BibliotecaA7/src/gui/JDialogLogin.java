@@ -9,11 +9,11 @@ package gui;
  *
  * @author PICHAU
  */
-import java.text.Normalizer;
 import model.Login;
 import service.LoginService;
 import service.ServiceFactory;
 import javax.swing.JOptionPane;
+import utils.validacao;
 
 public class JDialogLogin extends javax.swing.JDialog {
 
@@ -27,12 +27,6 @@ public class JDialogLogin extends javax.swing.JDialog {
         initComponents();
     }
     
-        private static String formatString(String s) {
-        String temp = Normalizer
-                .normalize(s, Normalizer.Form.NFD)
-                .replaceAll("[^\\p{ASCII}]", "");
-        return s;
-    }
     
     private void login(){
                 LoginService entity = ServiceFactory.getLoginService();
@@ -46,9 +40,9 @@ public class JDialogLogin extends javax.swing.JDialog {
                 || (s.isEmpty())) {
             JOptionPane.showMessageDialog(null, "Os campos são OBRIGATÒRIOS");
         } else {
-            u = formatString(u);
-            s = formatString(s);
-            res = entity.consultaLogin(formatString(u), formatString(s));
+            u = validacao.formatString(u);
+            s = validacao.formatString(s);
+            res = entity.consultaLogin(u, s);
             switch (res) {
                 case 0:
                     JOptionPane.showMessageDialog(null, "Usuario ou senha inválido");

@@ -11,15 +11,13 @@ import service.LoginService;
 import service.PessoaService;
 import service.ServiceFactory;
 import java.sql.Date;
-import java.text.Normalizer;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
+import utils.validacao;
 
 /**
  *
@@ -34,39 +32,23 @@ public class CadastrarUsuario extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-    private static String formatString(String s) {
-        String temp = Normalizer
-                .normalize(s, Normalizer.Form.NFD)
-                .replaceAll("[^\\p{ASCII}]", "");
-        return s;
-    }
-
-    private static boolean isDateValid(String date) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate d = LocalDate.parse(date, formatter);
-            return true;
-        } catch (DateTimeParseException e) {
-            return false;
-        }
-    }
 
     private void cadUsuario() {
         PessoaService entity = ServiceFactory.getPessoaService();
         LoginService entity2 = ServiceFactory.getLoginService();
 
-        String nomeTemp = nome.getText();
-        String cpfTemp = cpf.getText();
-        String dataTemp = dataNascimento.getText();
-        String usuarioTemp = usuario.getText();
-        String senhaTemp = senha.getText();
+        String nomeTemp = nome.getText().trim();
+        String cpfTemp = cpf.getText().trim();
+        String dataTemp = dataNascimento.getText().trim();
+        String usuarioTemp = usuario.getText().trim();
+        String senhaTemp = senha.getText().trim();
 
         if (nomeTemp.isEmpty()
                 || cpfTemp.isEmpty()
                 || dataTemp.isEmpty()
                 || usuarioTemp.isEmpty()
                 || senhaTemp.isEmpty()
-                || !isDateValid(dataTemp)) {
+                || !validacao.isDateValid(dataTemp)) {
             JOptionPane.showMessageDialog(null, "Dados Inválidos");
         } else {
             if (entity2.verificaUsuario(usuarioTemp)) {
@@ -75,11 +57,11 @@ public class CadastrarUsuario extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "CPF já cadastrado");
             } else {
 
-                nomeTemp = formatString(nomeTemp);
-                cpfTemp = formatString(cpfTemp);
-                dataTemp = formatString(dataTemp);
-                usuarioTemp = formatString(usuarioTemp);
-                senhaTemp = formatString(senhaTemp);
+                nomeTemp = validacao.formatString_E(nomeTemp);
+                cpfTemp = validacao.formatString(cpfTemp);
+                dataTemp = validacao.formatString(dataTemp);
+                usuarioTemp = validacao.formatString_E(usuarioTemp);
+                senhaTemp = validacao.formatString_E(senhaTemp);
 
                 long idPessoa;
 

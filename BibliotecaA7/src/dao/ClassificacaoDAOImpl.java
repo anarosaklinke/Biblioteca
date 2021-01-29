@@ -1,19 +1,20 @@
 package dao;
 
-import model.Login;
 import utils.FabricaConexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-public class LoginDAOImpl implements LoginDAO {
+import model.Classificacao;
 
-    private String usuario;
+public class ClassificacaoDAOImpl implements ClassificacaoDAO {
 
     @Override
-    public boolean save(Login login) {
+    public boolean save(Classificacao classificacao) {
         boolean b = false;
         Connection con = null;
         PreparedStatement pstm = null;
@@ -24,11 +25,10 @@ public class LoginDAOImpl implements LoginDAO {
 
                 con.setAutoCommit(false);
 
-                pstm = con.prepareStatement(INSERT_LOGIN);
-                pstm.setLong(1, login.getIdLogin());
-                pstm.setString(2, login.getUsuario());
-                pstm.setString(3, login.getSenha());
-                pstm.setBoolean(4, login.getAdmin());
+                pstm = con.prepareStatement(INSERT);
+                pstm.setLong(1, classificacao.getIdClassificacao());
+                pstm.setString(2, classificacao.getNome());
+
                 pstm.executeUpdate();
 
                 con.commit();
@@ -42,7 +42,7 @@ public class LoginDAOImpl implements LoginDAO {
     }
 
     @Override
-    public boolean update(Login login, long idOld) {
+    public boolean excluir(String nome) {
         boolean b = false;
         Connection con = null;
         PreparedStatement pstm = null;
@@ -53,11 +53,16 @@ public class LoginDAOImpl implements LoginDAO {
 
                 con.setAutoCommit(false);
 
-                pstm = con.prepareStatement(UPDATE);
-                pstm.setString(1, login.getUsuario());
-                pstm.setString(2, login.getSenha());
-                pstm.setLong(3, idOld);
+                pstm = con.prepareStatement("SET SQL_SAFE_UPDATES = 0");
+                pstm.execute("SET SQL_SAFE_UPDATES = 0");
+                
+                pstm = con.prepareStatement(EXCLUIR);
+                pstm.setString(1, nome);
+
+                
                 pstm.executeUpdate();
+                
+                pstm.execute("SET SQL_SAFE_UPDATES = 1");
 
                 con.commit();
                 con.close();
@@ -100,161 +105,121 @@ public class LoginDAOImpl implements LoginDAO {
     }
 
     @Override
-    public int consultaLogin(String usuario, String senha) {
+    public boolean update(String nome, long idOld) {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet res = null;
-
-        int resultado = 0;
         con = FabricaConexao.getConexao();
-        if (con != null) {
-            try {
-                Statement stm = con.createStatement();
-
-                pstm = con.prepareStatement(CONSULTA_LOGIN);
-                pstm.setString(1, usuario);
-                res = pstm.executeQuery();
-
-                if (res != null && res.next()) {
-
-                    if (res.getNString("senha").equals(senha)) {
-
-                        if (res.getBoolean("admin")) {
-                            resultado = 2;
-                        } else {
-                            resultado = 1;
-                        }
-
-                    }
-                }
-                con.close();
-
-            } catch (SQLException ex) {
-                System.out.println("Message: " + ex);
-            }
-        }
-        return resultado;
-    }
-
-    @Override
-    public String consultaLoginUsuario(long idPessoa) {
-        Connection con = null;
-        PreparedStatement pstm = null;
-        ResultSet res = null;
-
-        String resultado = "Nao Encontrado";
-        con = FabricaConexao.getConexao();
-        if (con != null) {
-            try {
-                Statement stm = con.createStatement();
-
-                pstm = con.prepareStatement(LOGIN_USUARIO);
-                pstm.setLong(1, idPessoa);
-
-                res = pstm.executeQuery();
-
-                if (res != null && res.next()) {
-                    resultado = res.getString("usuario");
-                } else {
-                    resultado = "Nao Encontrado";
-                }
-                con.close();
-
-            } catch (SQLException ex) {
-                System.out.println("Message: " + ex);
-            }
-        }
-        return resultado;
-    }
-
-    @Override
-    public long consultaLongUsuario(long idPessoa) {
-        Connection con = null;
-        PreparedStatement pstm = null;
-        ResultSet res = null;
-
-        long resultado = -1;
-        con = FabricaConexao.getConexao();
-        if (con != null) {
-            try {
-                Statement stm = con.createStatement();
-
-                pstm = con.prepareStatement(IDLOGIN_USUARIO);
-                pstm.setLong(1, idPessoa);
-
-                res = pstm.executeQuery();
-
-                if (res != null && res.next()) {
-                    resultado = res.getLong("idLogin");
-                } else {
-                    resultado = -1;
-                }
-                con.close();
-
-            } catch (SQLException ex) {
-                System.out.println("Message: " + ex);
-            }
-        }
-        return resultado;
-    }
-
-    @Override
-    public boolean verificaUsuario(String usuario) {
-        Connection con = null;
-        PreparedStatement pstm = null;
-        ResultSet res = null;
-
-        boolean resultado = false;
-        con = FabricaConexao.getConexao();
-        if (con != null) {
-            try {
-                Statement stm = con.createStatement();
-
-                pstm = con.prepareStatement(CONSULTA_LOGIN);
-                pstm.setString(1, usuario);
-                res = pstm.executeQuery();
-
-                if (res != null && res.next()) {
-                    resultado = true;
-                }
-                con.close();
-
-            } catch (SQLException ex) {
-                System.out.println("Message: " + ex);
-            }
-        }
-        return resultado;
-    }
-
-    @Override
-    public boolean exclui(long idLogin) {
         boolean b = false;
-        Connection con = null;
-        PreparedStatement pstm = null;
-
-        con = FabricaConexao.getConexao();
         if (con != null) {
             try {
 
-                con.setAutoCommit(false);
-                pstm = con.prepareStatement("SET FOREIGN_KEY_CHECKS=0");
-                pstm.execute("SET FOREIGN_KEY_CHECKS=0");
-                
-                pstm = con.prepareStatement(EXCLUIR);
-                pstm.setLong(1, idLogin);
+                pstm = con.prepareStatement(UPDATE);
+                pstm.setString(1, nome);
+                pstm.setLong(1, idOld);
+                pstm.execute();
 
-                pstm.executeUpdate();
-
-                pstm.execute("SET FOREIGN_KEY_CHECKS=1");
-                
-                con.commit();
                 con.close();
                 b = true;
+
+            } catch (SQLException ex) {
+
+                System.out.println("Message: " + ex);
+            }
+        }
+
+        return b;
+
+    }
+
+    @Override
+    public long verifica(String nome) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet res = null;
+        long result = -1;
+        con = FabricaConexao.getConexao();
+
+        if (con != null) {
+            try {
+
+                Statement stm = con.createStatement();
+                pstm = con.prepareStatement(VERIFICA_NOME);
+                pstm.setString(1, nome);
+                res = pstm.executeQuery();
+
+                if (res != null && res.next()) {
+                    result = res.getLong("idClassificacao");
+                } else {
+                    result = -1;
+                }
+                con.close();
+
             } catch (SQLException ex) {
                 System.out.println("Message: " + ex);
             }
         }
-        return b;
+
+        return result;
+    }
+
+ @Override
+    public String verificaNome(long id) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet res = null;
+        String result = null;
+        con = FabricaConexao.getConexao();
+
+        if (con != null) {
+            try {
+
+                Statement stm = con.createStatement();
+                pstm = con.prepareStatement(VERIFICA_NOME_ID);
+                pstm.setLong(1, id);
+                
+                res = pstm.executeQuery();
+
+                while (res != null && res.next()) {
+                    result = res.getNString("nome");
+                } 
+                con.close();
+
+            } catch (SQLException ex) {
+                System.out.println("Message: " + ex);
+            }
+        }
+
+        return result;
+    }
+   
+        @Override
+    public List<Classificacao> recuperaClassificacao() {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet res = null;
+        List<Classificacao> temp = new ArrayList<Classificacao>();
+        con = FabricaConexao.getConexao();
+        if (con != null) {
+            try {
+
+                pstm = con.prepareStatement(RECUPERA_CLASSIFICACAO);
+                res = pstm.executeQuery();
+
+                Classificacao livro;
+                while (res != null && res.next()) {
+                    livro = new Classificacao(res.getLong("idClassificacao"));
+                    livro.setNome(res.getNString("nome"));
+                    temp.add(livro);
+                }
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("Message: " + ex);
+            }
+        }
+
+        return temp;
+
     }
 
 }
