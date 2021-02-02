@@ -12,51 +12,44 @@ import service.ClassificacaoService;
 import service.LivroService;
 import service.ServiceFactory;
 
-/**
- *
- * @author PICHAU
- */
+
 public class ExcluirLivro extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form ExcluirLivro
-     */
+
     public ExcluirLivro() {
         initComponents();
     }
-    
-        public final void categorias() {
+
+    public final void categorias() {
         ClassificacaoService entity = ServiceFactory.getClassificacaoService();
-        
+
         List<Classificacao> nomes = entity.recuperaClassificacao();
-        
+
         Classificacao nome;
-        
+
         String[] dados = new String[nomes.size()];
-        
+
         for (int i = 0; i < nomes.size(); i++) {
-            
+
             nome = nomes.get(i);
-            
+
             dados[i] = nome.getNome();
         }
-        
-        classifica = new javax.swing.JComboBox<>();        
+
+        classifica = new javax.swing.JComboBox<>();
         classifica.setModel(new javax.swing.DefaultComboBoxModel<>(dados));
-        
+
     }
-    
-    
-    private void excluir(){
+
+    private void excluir() {
         LivroService entity = ServiceFactory.getLivroService();
-        
-        if(entity.excluir(isbn.getText())){
-             JOptionPane.showMessageDialog(null, "Excluido!");
-        }else{
-             JOptionPane.showMessageDialog(null, "ERRO!");
+
+        if (entity.excluir(isbn.getText())) {
+            JOptionPane.showMessageDialog(null, "Excluido!");
+        } else {
+            JOptionPane.showMessageDialog(null, "ERRO!");
         }
-        
-        
+
         this.dispose();
     }
 

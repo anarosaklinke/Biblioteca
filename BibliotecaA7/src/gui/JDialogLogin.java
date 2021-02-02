@@ -5,10 +5,6 @@
  */
 package gui;
 
-/**
- *
- * @author PICHAU
- */
 import model.Login;
 import service.LoginService;
 import service.ServiceFactory;
@@ -19,9 +15,7 @@ public class JDialogLogin extends javax.swing.JDialog {
 
     public static JDialogLogin dialog;
 
-    /**
-     * Creates new form Login
-     */
+
     public JDialogLogin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();

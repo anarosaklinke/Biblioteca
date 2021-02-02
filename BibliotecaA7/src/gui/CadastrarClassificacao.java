@@ -12,15 +12,10 @@ import service.ClassificacaoService;
 import service.ServiceFactory;
 import utils.validacao;
 
-/**
- *
- * @author PICHAU
- */
+
 public class CadastrarClassificacao extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form CadastrarClassificacao
-     */
+
     public CadastrarClassificacao() {
         initComponents();
 

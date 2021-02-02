@@ -14,15 +14,10 @@ import service.LivroService;
 import service.ServiceFactory;
 import utils.validacao;
 
-/**
- *
- * @author PICHAU
- */
+
 public class AlterarLivro extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form AlterarLivro
-     */
+
     public AlterarLivro() {
         ClassificacaoService entity = ServiceFactory.getClassificacaoService();
         List<Classificacao> nomes = entity.recuperaClassificacao();

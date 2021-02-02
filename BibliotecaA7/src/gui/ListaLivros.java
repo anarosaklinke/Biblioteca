@@ -15,15 +15,10 @@ import service.PessoaService;
 import service.ServiceFactory;
 import utils.validacao;
 
-/**
- *
- * @author PICHAU
- */
+
 public class ListaLivros extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form ListaClientes
-     */
+
     public ListaLivros() {
         initComponents();
 
