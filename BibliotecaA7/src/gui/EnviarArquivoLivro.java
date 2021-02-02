@@ -12,7 +12,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
-import java.text.Normalizer;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import javax.swing.JFileChooser;

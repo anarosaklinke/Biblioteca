@@ -21,11 +21,17 @@ import service.LivroService;
 import service.ServiceFactory;
 import utils.validacao;
 
-
 public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
 
     public CadastrarPorAssistente_Google() {
-        initComponents();
+        ClassificacaoService entity = ServiceFactory.getClassificacaoService();
+        List<Classificacao> nomes = entity.recuperaClassificacao();
+        if (nomes.size() > 0) {
+            initComponents();
+        } else {
+            JOptionPane.showMessageDialog(null, "Cadastre uma Categoria Primeiro");
+            this.dispose();
+        }
     }
 
     public final void categorias() {
@@ -122,7 +128,6 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
         }
     }
 
-
     private void cadastrarLivro(String titulo, String dataPub, String autor, String isbn, String semelhante) {
         LivroService entity = ServiceFactory.getLivroService();
 
@@ -180,18 +185,21 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
 
     }
 
-    public static void mudaSemelhante(String isbnS, String tituloS, 
+    public static void mudaSemelhante(String isbnS, String tituloS,
             String dataS, String autor) {
         semelhante.setText(isbnS);
         titulo1.setText(tituloS);
         dataPub1.setText(dataS);
         autores.setText(autor);
     }
+
     private void selecionarSemelhante() {
         SelecionarSemelhante selecionar = new SelecionarSemelhante(this);
         getParent().add(selecionar);
         selecionar.setVisible(true);
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -219,8 +227,9 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
         titulo1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         classifica = new javax.swing.JComboBox<>();
+        jButton4 = new javax.swing.JButton();
         semelhante = new javax.swing.JFormattedTextField();
-        jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         tabelaLivros.setEnabled(false);
         tabelaLivros.setVerifyInputWhenFocusTarget(false);
@@ -283,6 +292,14 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
 
         categorias();
 
+        jButton4.setForeground(new java.awt.Color(204, 0, 51));
+        jButton4.setText("-");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         semelhante.setEditable(false);
         semelhante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -290,10 +307,10 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton3.setText("+");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton5.setText("+");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -320,10 +337,6 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2))
                 .addGap(66, 66, 66)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(semelhante)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -331,7 +344,13 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
                             .addComponent(titulo1)
                             .addComponent(dataPub1)
                             .addComponent(autores)
-                            .addComponent(classifica, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(classifica, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(semelhante)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4)))
                 .addGap(0, 82, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -359,12 +378,13 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(autores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(semelhante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton3))
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton5)
+                        .addComponent(jButton4)))
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(classifica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -388,22 +408,28 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-
-        cadastrarLivro(titulo1.getText(), dataPub1.getText(), autores.getText(), validacao.formatString_E(isbn1.getText()), validacao.formatString(semelhante.getText().trim()));
+        cadastrarLivro(titulo1.getText(), dataPub1.getText(), autores.getText(),
+                    validacao.formatString_E(isbn1.getText()),
+                    validacao.formatString(semelhante.getText().trim()));
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void dataPub1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataPub1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dataPub1ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        semelhante.setText("");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     private void semelhanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_semelhanteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_semelhanteActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         selecionarSemelhante();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -414,7 +440,8 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
     private javax.swing.JTextField isbn1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

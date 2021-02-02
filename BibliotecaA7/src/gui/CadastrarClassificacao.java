@@ -88,19 +88,21 @@ public class CadastrarClassificacao extends javax.swing.JInternalFrame {
     }
 
     private void excluir() {
-        String nome = (String) lista.getModel().getValueAt(lista.getSelectedRow(), 0);
-        ClassificacaoService entity = ServiceFactory.getClassificacaoService();
+        if (lista.getSelectedRow() != -1) {
+            String nome = (String) lista.getModel().getValueAt(lista.getSelectedRow(), 0);
+            ClassificacaoService entity = ServiceFactory.getClassificacaoService();
 
-        if (nome.equals("Default")) {
-            JOptionPane.showMessageDialog(null, "Default não pode ser excluida");
-        } else {
-            if (entity.excluir(nome)) {
-                JOptionPane.showMessageDialog(null, "Excluida");
+            if (nome.equals("Default")) {
+                JOptionPane.showMessageDialog(null, "Default não pode ser excluida");
             } else {
-                JOptionPane.showMessageDialog(null, "Erro");
+                if (entity.excluir(nome)) {
+                    JOptionPane.showMessageDialog(null, "Excluida");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro");
+                }
             }
+            exibir();
         }
-        exibir();
     }
 
     /**
