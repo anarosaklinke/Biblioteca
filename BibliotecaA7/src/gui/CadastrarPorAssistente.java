@@ -26,9 +26,7 @@ import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
 public class CadastrarPorAssistente extends javax.swing.JInternalFrame {
-
 
     public CadastrarPorAssistente() {
         ClassificacaoService entity = ServiceFactory.getClassificacaoService();

@@ -20,6 +20,6 @@ public interface LoginService {
     long consultaLongUsuario(long idPessoa);
 
     boolean update(Login login, long idOld);
-    
+
     boolean exclui(long idLogin);
 }

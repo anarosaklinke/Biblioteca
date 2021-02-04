@@ -239,14 +239,14 @@ public class LoginDAOImpl implements LoginDAO {
                 con.setAutoCommit(false);
                 pstm = con.prepareStatement("SET FOREIGN_KEY_CHECKS=0");
                 pstm.execute("SET FOREIGN_KEY_CHECKS=0");
-                
+
                 pstm = con.prepareStatement(EXCLUIR);
                 pstm.setLong(1, idLogin);
 
                 pstm.executeUpdate();
 
                 pstm.execute("SET FOREIGN_KEY_CHECKS=1");
-                
+
                 con.commit();
                 con.close();
                 b = true;

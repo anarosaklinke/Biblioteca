@@ -42,12 +42,10 @@ public class SelecionarSemelhante extends javax.swing.JInternalFrame {
     }
 
     SelecionarSemelhante(CadastrarPorAssistente_Google aThis) {
-retorno = 3;
+        retorno = 3;
         initComponents();
         exibir();
     }
-
- 
 
     public final void exibir() {
         LivroService entity = ServiceFactory.getLivroService();
@@ -90,8 +88,6 @@ retorno = 3;
         jScrollPane2.setViewportView(tabelaLivros);
 
     }
-
-
 
     private void exibirPesquisa(String chave) {
         LivroService entity = ServiceFactory.getLivroService();
@@ -165,7 +161,7 @@ retorno = 3;
                     break;
                 case 3:
                     CadastrarPorAssistente_Google.mudaSemelhante(isbnS, tituloS, dataS, autor);
-                    break;    
+                    break;
             }
             this.dispose();
         }

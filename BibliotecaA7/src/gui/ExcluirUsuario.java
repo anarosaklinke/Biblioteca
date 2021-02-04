@@ -42,11 +42,11 @@ public class ExcluirUsuario extends javax.swing.JInternalFrame {
             long login = entity2.consultaLongUsuario(idPessoa);
 
             Endereco endereco = entity3.recuperaEnderecoPessoa(idPessoa);
-            
+
             if (login != -1) {
                 entity2.exclui(login);
             }
-            
+
             if (endereco != null) {
                 entity3.exclui(endereco.getIdEndereco());
             }
@@ -56,16 +56,16 @@ public class ExcluirUsuario extends javax.swing.JInternalFrame {
             if (contato != null) {
                 entity4.exclui(contato.getIdContato());
             }
-            
+
             entity.exclui(idPessoa);
-            
+
             JOptionPane.showMessageDialog(null, "Usuario Excluido");
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usuario cadastrou livro - Nao Pode Excluir");
         }
-        
+
         this.dispose();
-        
+
     }
 
     /**

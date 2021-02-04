@@ -14,10 +14,10 @@ public interface PessoaService {
     List<Pessoa> recuperaPessoa();
 
     boolean verificaCPF(String cpf);
-    
+
     long idCPF(String cpf);
-    
+
     boolean update(Pessoa pessoa, long idOld);
-    
+
     boolean exclui(long idPessoa);
 }

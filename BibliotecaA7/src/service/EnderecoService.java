@@ -11,6 +11,6 @@ public interface EnderecoService {
     long recuperaUltimoId();
 
     Endereco recuperaEnderecoPessoa(long idPessoa);
-    
+
     boolean exclui(long idEndereco);
 }

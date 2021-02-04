@@ -32,7 +32,6 @@ public class CadastrarUsuario extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-
     private void cadUsuario() {
         PessoaService entity = ServiceFactory.getPessoaService();
         LoginService entity2 = ServiceFactory.getLoginService();

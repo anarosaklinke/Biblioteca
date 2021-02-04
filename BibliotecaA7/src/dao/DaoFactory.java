@@ -2,15 +2,13 @@ package dao;
 
 public class DaoFactory {
 
-
-
     private DaoFactory() {
     }
 
     public static LoginDAO getLoginDAO() {
         return new LoginDAOImpl();
     }
-    
+
     public static ClassificacaoDAO getClassificacaoDAO() {
         return new ClassificacaoDAOImpl();
     }

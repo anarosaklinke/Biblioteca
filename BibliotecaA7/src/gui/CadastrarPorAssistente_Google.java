@@ -199,8 +199,6 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
         selecionar.setVisible(true);
     }
 
-
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -409,8 +407,8 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         cadastrarLivro(titulo1.getText(), dataPub1.getText(), autores.getText(),
-                    validacao.formatString_E(isbn1.getText()),
-                    validacao.formatString(semelhante.getText().trim()));
+                validacao.formatString_E(isbn1.getText()),
+                validacao.formatString(semelhante.getText().trim()));
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void dataPub1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataPub1ActionPerformed

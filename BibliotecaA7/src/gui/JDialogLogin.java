@@ -15,18 +15,16 @@ public class JDialogLogin extends javax.swing.JDialog {
 
     public static JDialogLogin dialog;
 
-
     public JDialogLogin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-    
-    
-    private void login(){
-                LoginService entity = ServiceFactory.getLoginService();
-        
+
+    private void login() {
+        LoginService entity = ServiceFactory.getLoginService();
+
         int res;
-        
+
         String u = usuario.getText().trim();
         String s = senha.getText().trim();
 

@@ -14,9 +14,7 @@ import service.LivroService;
 import service.ServiceFactory;
 import utils.validacao;
 
-
 public class AlterarLivro extends javax.swing.JInternalFrame {
-
 
     public AlterarLivro() {
         ClassificacaoService entity = ServiceFactory.getClassificacaoService();
@@ -56,7 +54,7 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
         Long idIsbn = entity.recuperaIsbn(isbn.getText());
 
         Livro livro;
-        
+
         String autoresTemp = autores.getText().trim();
         String isbnTemp = isbn.getText().trim();
         String semelhanteTemp = semelhante.getText().trim();
@@ -64,10 +62,10 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
         String tituloTemp = titulo.getText().trim();
         System.out.println(autores.getText().trim());
         String classTemp = (classifica.getSelectedItem()).toString();
-        
+
         livro = validacao.validaLivro(idIsbn, autoresTemp, isbnTemp,
-            semelhanteTemp, dataTemp, tituloTemp, classTemp);
-        
+                semelhanteTemp, dataTemp, tituloTemp, classTemp);
+
         if (livro != null) {
             long idPessoa = entity.verifica(Sistema.getUsuario());
 
@@ -99,7 +97,6 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
         getParent().add(selecionar);
         selecionar.setVisible(true);
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.

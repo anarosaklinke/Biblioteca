@@ -14,10 +14,10 @@ public interface ClassificacaoService {
     long recuperaUltimoId();
 
     boolean update(String nome, long idOld);
-    
+
     List<Classificacao> recuperaClassificacao();
-    
-    public String verificaNome(long id);
-    
-    public boolean verificaExcluir(long idClassificacao);
+
+    String verificaNome(long id);
+
+    boolean verificaExcluir(long idClassificacao);
 }

@@ -27,7 +27,6 @@ public class CadastrarEndereco extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-
     private void cadEnd() {
         String cidadeT = cidade.getText().trim();
         String ruaT = rua.getText().trim();
@@ -36,7 +35,7 @@ public class CadastrarEndereco extends javax.swing.JInternalFrame {
         String cepT = cep.getText().trim();
         String numeroT = numero.getText().trim();
         String bairroT = bairro.getText().trim();
-        
+
         if ((cidadeT.isEmpty())
                 || (ruaT.isEmpty())
                 || (estadoT.isEmpty())

@@ -33,8 +33,6 @@ public class AlteraUsuario extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-
-
     private void alteraUsuario() {
         PessoaService entity = ServiceFactory.getPessoaService();
         LoginService entity2 = ServiceFactory.getLoginService();
@@ -110,7 +108,7 @@ public class AlteraUsuario extends javax.swing.JInternalFrame {
                 cal.set(Calendar.MONTH, temp);
                 temp = Integer.parseInt(lista[2]);
                 cal.set(Calendar.YEAR, temp);
-                
+
                 data = new java.sql.Date(cal.getTimeInMillis());
 
                 cal = Calendar.getInstance();
@@ -160,7 +158,7 @@ public class AlteraUsuario extends javax.swing.JInternalFrame {
                 dataNascimento.setText("");
 
                 JOptionPane.showMessageDialog(null, "Usuário Atualizado!");
-                
+
             }
             this.dispose();
         }

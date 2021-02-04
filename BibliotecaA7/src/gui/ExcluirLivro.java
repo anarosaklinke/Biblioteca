@@ -12,9 +12,7 @@ import service.ClassificacaoService;
 import service.LivroService;
 import service.ServiceFactory;
 
-
 public class ExcluirLivro extends javax.swing.JInternalFrame {
-
 
     public ExcluirLivro() {
         initComponents();

@@ -12,7 +12,6 @@ public class Livro {
     private int estoque;
     private long idClassificacao;
 
-
     public Livro(long idLivro) {
         this.idLivro = idLivro;
     }
@@ -84,6 +83,5 @@ public class Livro {
     public void setIdClassificacao(long idClassificacao) {
         this.idClassificacao = idClassificacao;
     }
-
 
 }

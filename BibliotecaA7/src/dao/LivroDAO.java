@@ -24,7 +24,7 @@ public interface LivroDAO {
             + "titulo = ?, Classificacao_idClassificacao = ?, "
             + "dataPublicacao = ?, autores = ?, Pessoa_idPessoa = ? "
             + "WHERE idLivro = ? ";
-    
+
     final String UPDATE_S = "UPDATE Livro SET "
             + "titulo = ?, semelhantes = ?, Classificacao_idClassificacao = ?, "
             + "dataPublicacao = ?, autores = ?, Pessoa_idPessoa = ? "
@@ -41,12 +41,12 @@ public interface LivroDAO {
             + "titulo = ?, semelhantes = ?, Classificacao_idClassificacao = ?, "
             + " dataPublicacao = ?, autores = ? "
             + "WHERE isbn = ? ";
-    
+
     final String UPDATE_ISBN = "UPDATE Livro SET "
             + "titulo = ?, Classificacao_idClassificacao = ?, "
             + " dataPublicacao = ?, autores = ? "
             + "WHERE isbn = ? ";
-    
+
     final String CHAVE = "SELECT * FROM livro "
             + "INNER JOIN classificacao ON"
             + "(dataPublicacao LIKE ? OR "

@@ -28,8 +28,6 @@ public class Pessoa {
         this.sexo = sexo;
     }
 
-
-
     public long geIdLogin() {
         return idLogin;
     }

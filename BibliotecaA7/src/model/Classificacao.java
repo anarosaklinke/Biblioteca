@@ -5,12 +5,11 @@
  */
 package model;
 
-
 public class Classificacao {
-    
+
     private final long idClassificacao;
     private String nome;
-    
+
     public Classificacao(long idClassificacao) {
         this.idClassificacao = idClassificacao;
     }
