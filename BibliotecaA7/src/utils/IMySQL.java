@@ -1,7 +1,5 @@
 package utils;
 
-import java.sql.Connection;
-
 public interface IMySQL {
 
     final String USUARIO = "root";
