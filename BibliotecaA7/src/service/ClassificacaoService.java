@@ -18,4 +18,6 @@ public interface ClassificacaoService {
     List<Classificacao> recuperaClassificacao();
     
     public String verificaNome(long id);
+    
+    public boolean verificaExcluir(long idClassificacao);
 }

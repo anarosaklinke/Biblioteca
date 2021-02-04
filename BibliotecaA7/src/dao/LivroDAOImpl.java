@@ -26,7 +26,7 @@ public class LivroDAOImpl implements LivroDAO {
 
                 pstm = con.prepareStatement("SET FOREIGN_KEY_CHECKS=0");
                 pstm.execute("SET FOREIGN_KEY_CHECKS=0");
-                
+
                 pstm = con.prepareStatement(INSERT);
                 pstm.setLong(1, livro.getIdLivro());
                 pstm.setString(2, livro.getDataPublicacao());
@@ -38,7 +38,7 @@ public class LivroDAOImpl implements LivroDAO {
                 pstm.setLong(8, livro.getIdClassificacao());
 
                 pstm.executeUpdate();
-                
+
                 pstm.execute("SET FOREIGN_KEY_CHECKS=1");
 
                 con.commit();
@@ -164,13 +164,12 @@ public class LivroDAOImpl implements LivroDAO {
                 pstm.setString(4, chave);
                 pstm.setString(5, chave);
                 pstm.setString(6, chave);
-                
+
                 res = pstm.executeQuery();
-                
 
                 Livro livro;
                 while (res != null && res.next()) {
-                    livro = new Livro(res.getLong("idLivro"));                    
+                    livro = new Livro(res.getLong("idLivro"));
                     livro.setAutores(res.getNString("autores"));
                     livro.setDataPublicacao(res.getNString("dataPublicacao"));
                     livro.setIdPessoa(res.getLong("Pessoa_idPessoa"));
@@ -266,6 +265,9 @@ public class LivroDAOImpl implements LivroDAO {
         if (con != null) {
             try {
 
+                pstm = con.prepareStatement("SET FOREIGN_KEY_CHECKS=0");
+                pstm.execute("SET FOREIGN_KEY_CHECKS=0");
+
                 if (livro.getSemelhantes().isEmpty()) {
                     pstm = con.prepareStatement(UPDATE);
                     pstm.setString(1, livro.getTitulo());
@@ -287,7 +289,8 @@ public class LivroDAOImpl implements LivroDAO {
 
                 pstm.execute();
 
-                //con.commit();
+                pstm.execute("SET FOREIGN_KEY_CHECKS=1");
+
                 con.close();
                 b = true;
 
@@ -311,6 +314,9 @@ public class LivroDAOImpl implements LivroDAO {
         if (con != null) {
             try {
 
+                pstm = con.prepareStatement("SET FOREIGN_KEY_CHECKS=0");
+                pstm.execute("SET FOREIGN_KEY_CHECKS=0");
+
                 if (livro.getSemelhantes().isEmpty()) {
                     pstm = con.prepareStatement(UPDATE_ISBN);
                     pstm.setString(1, livro.getTitulo());
@@ -330,7 +336,7 @@ public class LivroDAOImpl implements LivroDAO {
 
                 pstm.execute();
 
-                //con.commit();
+                pstm.execute("SET FOREIGN_KEY_CHECKS=1");
                 con.close();
                 b = true;
 
@@ -386,16 +392,18 @@ public class LivroDAOImpl implements LivroDAO {
             try {
 
                 con.setAutoCommit(false);
-                
+
+                pstm = con.prepareStatement("SET FOREIGN_KEY_CHECKS=0");
+                pstm.execute("SET FOREIGN_KEY_CHECKS=0");
 
                 pstm = con.prepareStatement(EXCLUIR);
                 pstm.setString(1, isbn);
-                
-                
 
                 pstm.executeUpdate();
 
                 con.commit();
+
+                pstm.execute("SET FOREIGN_KEY_CHECKS=1");
                 con.close();
                 b = true;
             } catch (SQLException ex) {
@@ -404,7 +412,5 @@ public class LivroDAOImpl implements LivroDAO {
         }
         return b;
     }
-    
-    
 
 }

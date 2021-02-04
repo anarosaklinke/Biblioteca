@@ -15,17 +15,13 @@ import service.PessoaService;
 import service.ServiceFactory;
 import utils.validacao;
 
-
 public class ListaLivros extends javax.swing.JInternalFrame {
-
 
     public ListaLivros() {
         initComponents();
 
         exibir();
     }
-    
-    
 
     public final void exibir() {
         LivroService entity = ServiceFactory.getLivroService();
@@ -52,7 +48,7 @@ public class ListaLivros extends javax.swing.JInternalFrame {
             dados[i][1] = l.getTitulo();
             dados[i][2] = l.getAutores();
             dados[i][3] = l.getDataPublicacao();
-            dados[i][4] = l.getSemelhantes();   
+            dados[i][4] = l.getSemelhantes();
             dados[i][5] = entity4.verificaNome(l.getIdClassificacao());
             dados[i][6] = us;
         }
@@ -68,15 +64,13 @@ public class ListaLivros extends javax.swing.JInternalFrame {
         jScrollPane2.setViewportView(tabelaLivros);
 
     }
-    
 
-    
-    private void exibirPesquisa(String chave){
+    private void exibirPesquisa(String chave) {
         LivroService entity = ServiceFactory.getLivroService();
         PessoaService entity2 = ServiceFactory.getPessoaService();
         LoginService entity3 = ServiceFactory.getLoginService();
         ClassificacaoService entity4 = ServiceFactory.getClassificacaoService();
-        
+
         List<Livro> livros = entity.recuperaLivro(chave);
 
         Livro l;
@@ -92,12 +86,11 @@ public class ListaLivros extends javax.swing.JInternalFrame {
 
             us = entity3.consultaLoginUsuario(p.getIdPessoa());
 
-            
             dados[i][0] = l.getIsbn();
             dados[i][1] = l.getTitulo();
             dados[i][2] = l.getAutores();
             dados[i][3] = l.getDataPublicacao();
-            dados[i][4] = l.getSemelhantes();   
+            dados[i][4] = l.getSemelhantes();
             dados[i][5] = entity4.verificaNome(l.getIdClassificacao());
             dados[i][6] = us;
         }
@@ -112,13 +105,13 @@ public class ListaLivros extends javax.swing.JInternalFrame {
 
         jScrollPane2.setViewportView(tabelaLivros);
     }
-    
-    private void pesquisar(){
+
+    private void pesquisar() {
         String chave = pesquisa.getText().trim();
-        
-        if (chave.isEmpty()){
+
+        if (chave.isEmpty()) {
             exibir();
-        }else{
+        } else {
             exibirPesquisa(validacao.formatString(chave));
         }
     }
@@ -138,7 +131,7 @@ public class ListaLivros extends javax.swing.JInternalFrame {
             alterar.dataPub.setText((String) tabelaLivros.getModel().getValueAt(tabelaLivros.getSelectedRow(), 3));
             alterar.semelhante.setText((String) tabelaLivros.getModel().getValueAt(tabelaLivros.getSelectedRow(), 4));
             alterar.classifica.setSelectedItem((String) tabelaLivros.getModel().getValueAt(tabelaLivros.getSelectedRow(), 5));
-            
+
             getParent().add(alterar);
             alterar.setVisible(true);
         }
@@ -165,41 +158,38 @@ public class ListaLivros extends javax.swing.JInternalFrame {
             excluir.setVisible(true);
         }
     }
-    
 
-    
-    private void cadastrarClass(){
+    private void cadastrarClass() {
         CadastrarClassificacao cad = new CadastrarClassificacao();
         getParent().add(cad);
         cad.setVisible(true);
     }
-    
-    private void cadastrarSemelhante(){
-            if (tabelaLivros.getSelectedRow() != -1) {
+
+    private void cadastrarSemelhante() {
+        if (tabelaLivros.getSelectedRow() != -1) {
             CadastroLivroManualmente cad = new CadastroLivroManualmente();
             cad.semelhante.setText((String) tabelaLivros.getModel().getValueAt(tabelaLivros.getSelectedRow(), 0));
             cad.titulo.setText((String) tabelaLivros.getModel().getValueAt(tabelaLivros.getSelectedRow(), 1));
             cad.autores.setText((String) tabelaLivros.getModel().getValueAt(tabelaLivros.getSelectedRow(), 2));
             cad.dataPub.setText((String) tabelaLivros.getModel().getValueAt(tabelaLivros.getSelectedRow(), 3));
             cad.classifica.setSelectedItem((String) tabelaLivros.getModel().getValueAt(tabelaLivros.getSelectedRow(), 5));
-            
+
             getParent().add(cad);
             cad.setVisible(true);
         }
     }
-    
-    private void cadGoogle(){
+
+    private void cadGoogle() {
         CadastrarPorAssistente_Google cad = new CadastrarPorAssistente_Google();
         getParent().add(cad);
         cad.setVisible(true);
     }
-    
-    private void cadAssistente(){
+
+    private void cadAssistente() {
         CadastrarPorAssistente cad = new CadastrarPorAssistente();
         getParent().add(cad);
         cad.setVisible(true);
     }
-        
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -412,7 +402,7 @@ public class ListaLivros extends javax.swing.JInternalFrame {
     private void atualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarActionPerformed
         // TODO add your handling code here:
         pesquisar();
-        
+
 
     }//GEN-LAST:event_atualizarActionPerformed
 
@@ -433,14 +423,14 @@ public class ListaLivros extends javax.swing.JInternalFrame {
 
     private void alterarLivro2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarLivro2ActionPerformed
         // TODO add your handling code here:
-        
+
         cadastrarClass();
     }//GEN-LAST:event_alterarLivro2ActionPerformed
 
     private void CadAssistente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadAssistente1ActionPerformed
         // TODO add your handling code here:
         cadGoogle();
-        
+
     }//GEN-LAST:event_CadAssistente1ActionPerformed
 
 

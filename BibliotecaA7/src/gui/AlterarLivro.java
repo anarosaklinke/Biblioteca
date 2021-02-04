@@ -50,9 +50,13 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
 
     }
 
-    private Livro valida(long idIsbn) {
+    private void updateLivro() {
+        LivroService entity = ServiceFactory.getLivroService();
 
-        Livro livro = null;
+        Long idIsbn = entity.recuperaIsbn(isbn.getText());
+
+        Livro livro;
+        
         String autoresTemp = autores.getText().trim();
         String isbnTemp = isbn.getText().trim();
         String semelhanteTemp = semelhante.getText().trim();
@@ -60,43 +64,10 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
         String tituloTemp = titulo.getText().trim();
         System.out.println(autores.getText().trim());
         String classTemp = (classifica.getSelectedItem()).toString();
-
-        if (autoresTemp.isEmpty()
-                || isbnTemp.isEmpty()
-                || dataTemp.isEmpty()
-                || tituloTemp.isEmpty()) {
-            return livro;
-        } else {
-
-            autoresTemp = validacao.formatString(autoresTemp);
-            isbnTemp = validacao.formatString_E(isbnTemp);
-            semelhanteTemp = validacao.formatString(semelhanteTemp);
-            dataTemp = validacao.formatString(dataTemp);
-            tituloTemp = validacao.formatString(tituloTemp);
-
-            ClassificacaoService entity = ServiceFactory.getClassificacaoService();
-            long idClass = entity.verifica(classTemp);
-
-            livro = new Livro(idIsbn);
-            livro.setAutores(autoresTemp);
-            livro.setSemelhantes(semelhanteTemp);
-            livro.setDataPublicacao(dataTemp);
-            livro.setTitulo(tituloTemp);
-            livro.setIsbn(isbnTemp);
-            livro.setIdClassificacao(idClass);
-
-        }
-
-        return livro;
-    }
-
-    private void updateLivro() {
-        LivroService entity = ServiceFactory.getLivroService();
-
-        Long idIsbn = entity.recuperaIsbn(isbn.getText());
-
-        Livro livro;
-        livro = valida(idIsbn);
+        
+        livro = validacao.validaLivro(idIsbn, autoresTemp, isbnTemp,
+            semelhanteTemp, dataTemp, tituloTemp, classTemp);
+        
         if (livro != null) {
             long idPessoa = entity.verifica(Sistema.getUsuario());
 

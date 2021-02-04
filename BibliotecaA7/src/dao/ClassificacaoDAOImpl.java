@@ -55,13 +55,12 @@ public class ClassificacaoDAOImpl implements ClassificacaoDAO {
 
                 pstm = con.prepareStatement("SET SQL_SAFE_UPDATES = 0");
                 pstm.execute("SET SQL_SAFE_UPDATES = 0");
-                
+
                 pstm = con.prepareStatement(EXCLUIR);
                 pstm.setString(1, nome);
 
-                
                 pstm.executeUpdate();
-                
+
                 pstm.execute("SET SQL_SAFE_UPDATES = 1");
 
                 con.commit();
@@ -163,7 +162,7 @@ public class ClassificacaoDAOImpl implements ClassificacaoDAO {
         return result;
     }
 
- @Override
+    @Override
     public String verificaNome(long id) {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -177,12 +176,12 @@ public class ClassificacaoDAOImpl implements ClassificacaoDAO {
                 Statement stm = con.createStatement();
                 pstm = con.prepareStatement(VERIFICA_NOME_ID);
                 pstm.setLong(1, id);
-                
+
                 res = pstm.executeQuery();
 
                 while (res != null && res.next()) {
                     result = res.getNString("nome");
-                } 
+                }
                 con.close();
 
             } catch (SQLException ex) {
@@ -192,8 +191,8 @@ public class ClassificacaoDAOImpl implements ClassificacaoDAO {
 
         return result;
     }
-   
-        @Override
+
+    @Override
     public List<Classificacao> recuperaClassificacao() {
         Connection con = null;
         PreparedStatement pstm = null;
@@ -220,6 +219,37 @@ public class ClassificacaoDAOImpl implements ClassificacaoDAO {
 
         return temp;
 
+    }
+
+    @Override
+    public boolean verificaExcluir(long idClassificacao) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet res = null;
+        boolean result = false;
+        con = FabricaConexao.getConexao();
+
+        if (con != null) {
+            try {
+
+                Statement stm = con.createStatement();
+                pstm = con.prepareStatement(VERIFICA);
+                pstm.setLong(1, idClassificacao);
+                res = pstm.executeQuery();
+
+                if (res != null && res.next()) {
+                    result = true;
+                } else {
+                    result = false;
+                }
+                con.close();
+
+            } catch (SQLException ex) {
+                System.out.println("Message: " + ex);
+            }
+        }
+
+        return result;
     }
 
 }

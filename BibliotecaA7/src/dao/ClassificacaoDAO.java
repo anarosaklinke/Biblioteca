@@ -12,7 +12,7 @@ public interface ClassificacaoDAO {
     final String RECUPERA_ID = "select Max(idClassificacao) from Classificacao";
 
     final String VERIFICA_NOME = "SELECT * FROM Classificacao WHERE nome = ?";
-    
+
     final String VERIFICA_NOME_ID = "SELECT nome FROM Classificacao WHERE idClassificacao = ? ";
 
     final String RECUPERA_CLASSIFICACAO = "SELECT * FROM Classificacao";
@@ -21,9 +21,8 @@ public interface ClassificacaoDAO {
             + "nome = ? "
             + "WHERE idClassificacao = ? ";
 
-    final String VERIFICA = "SELECT * FROM Classificacao "
-            + "INNER JOIN Livro "
-            + "ON Classificacao.idClassificacao = ? AND Livro.Classificacao_idClassificacao = Classificacao.idClassificacao ";
+    final String VERIFICA = "SELECT * FROM livro WHERE "
+            + " Classificacao_idClassificacao = ? ";
 
     final String EXCLUIR = "DELETE FROM Classificacao "
             + "WHERE nome = ? ";
@@ -33,12 +32,14 @@ public interface ClassificacaoDAO {
     public boolean excluir(String nome);
 
     public long verifica(String nome);
-    
+
     public String verificaNome(long id);
 
     public long recuperaUltimoId();
 
     public boolean update(String nome, long idOld);
-    
+
     public List<Classificacao> recuperaClassificacao();
+
+    public boolean verificaExcluir(long idClassificacao);
 }

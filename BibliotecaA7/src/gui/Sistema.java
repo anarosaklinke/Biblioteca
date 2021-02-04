@@ -206,7 +206,6 @@ public class Sistema extends javax.swing.JFrame {
                 login.setVisible(true);
 
                 Sistema sistema = new Sistema();
-                System.out.println(admin);
 
                 if (admin == 0) {
                     //sistema.administracao.setVisible(false);

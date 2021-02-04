@@ -12,9 +12,7 @@ import service.ClassificacaoService;
 import service.ServiceFactory;
 import utils.validacao;
 
-
 public class CadastrarClassificacao extends javax.swing.JInternalFrame {
-
 
     public CadastrarClassificacao() {
         initComponents();
@@ -87,8 +85,11 @@ public class CadastrarClassificacao extends javax.swing.JInternalFrame {
             String nome = (String) lista.getModel().getValueAt(lista.getSelectedRow(), 0);
             ClassificacaoService entity = ServiceFactory.getClassificacaoService();
 
-            if (nome.equals("Default")) {
-                JOptionPane.showMessageDialog(null, "Default não pode ser excluida");
+            long id = entity.verifica(nome);
+
+            if (entity.verificaExcluir(id)) {
+                JOptionPane.showMessageDialog(null, "Classificação Referenciada - Não "
+                        + "pode ser excluida!");
             } else {
                 if (entity.excluir(nome)) {
                     JOptionPane.showMessageDialog(null, "Excluida");
@@ -96,7 +97,9 @@ public class CadastrarClassificacao extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Erro");
                 }
             }
+
             exibir();
+
         }
     }
 

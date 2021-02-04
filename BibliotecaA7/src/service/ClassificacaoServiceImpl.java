@@ -32,28 +32,39 @@ public class ClassificacaoServiceImpl implements ClassificacaoService {
 
         return b;
     }
-    
+
     @Override
     public long recuperaUltimoId() {
         long id;
         id = this.classificacaoDAO.recuperaUltimoId();
         return id;
     }
-    
+
     @Override
     public long verifica(String nome) {
         long result = -1;
         result = this.classificacaoDAO.verifica(nome);
         return result;
     }
-    
-        @Override
-    public String verificaNome(long id) {
-        String result = null;
-        result = this.classificacaoDAO.verificaNome(id);
+
+    @Override
+    public boolean verificaExcluir(long idClassificacao) {
+        boolean result = false;
+        result = this.classificacaoDAO.verificaExcluir(idClassificacao);
         return result;
     }
-    
+
+    @Override
+    public String verificaNome(long id) {
+        String result = null;
+
+        if (id > 0) {
+            result = this.classificacaoDAO.verificaNome(id);
+
+        }
+        return result;
+    }
+
     @Override
     public boolean update(String nome, long idOld) {
         boolean b = false;
@@ -66,7 +77,7 @@ public class ClassificacaoServiceImpl implements ClassificacaoService {
 
         return b;
     }
-    
+
     @Override
     public List<Classificacao> recuperaClassificacao() {
         List<Classificacao> b;
