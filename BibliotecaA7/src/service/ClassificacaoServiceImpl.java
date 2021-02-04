@@ -27,9 +27,9 @@ public class ClassificacaoServiceImpl implements ClassificacaoService {
     @Override
     public boolean excluir(String nome) {
         boolean b = false;
-
-        b = this.classificacaoDAO.excluir(nome);
-
+        if (nome != null) {
+            b = this.classificacaoDAO.excluir(nome);
+        }
         return b;
     }
 
@@ -43,14 +43,18 @@ public class ClassificacaoServiceImpl implements ClassificacaoService {
     @Override
     public long verifica(String nome) {
         long result = -1;
-        result = this.classificacaoDAO.verifica(nome);
+        if (nome != null) {
+            result = this.classificacaoDAO.verifica(nome);
+        }
         return result;
     }
 
     @Override
     public boolean verificaExcluir(long idClassificacao) {
         boolean result = false;
-        result = this.classificacaoDAO.verificaExcluir(idClassificacao);
+        if (idClassificacao > 0) {
+            result = this.classificacaoDAO.verificaExcluir(idClassificacao);
+        }
         return result;
     }
 

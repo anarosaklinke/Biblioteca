@@ -23,8 +23,8 @@ public class PessoaServiceImpl implements PessoaService {
 
         return b;
     }
-    
-                    @Override
+
+    @Override
     public boolean exclui(long idPessoa) {
         boolean b = false;
 
@@ -50,9 +50,9 @@ public class PessoaServiceImpl implements PessoaService {
     @Override
     public boolean verificaCPF(String cpf) {
         boolean b = false;
-
-        b = this.pessoaDAO.verificaCPF(cpf);
-
+        if (cpf != null) {
+            b = this.pessoaDAO.verificaCPF(cpf);
+        }
         return b;
     }
 
@@ -81,8 +81,10 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     public long idCPF(String cpf) {
-        long id;
-        id = this.pessoaDAO.idCPF(cpf);
+        long id = -1;
+        if (cpf != null) {
+            id = this.pessoaDAO.idCPF(cpf);
+        }
         return id;
     }
 }

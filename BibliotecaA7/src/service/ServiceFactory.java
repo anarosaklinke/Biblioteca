@@ -1,30 +1,31 @@
 package service;
 
 public class ServiceFactory {
-    private ServiceFactory(){
-    }    
-   
-    public static PessoaService getPessoaService(){
+
+    private ServiceFactory() {
+    }
+
+    public static PessoaService getPessoaService() {
         return new PessoaServiceImpl();
     }
-    
-    public static ClassificacaoService getClassificacaoService(){
+
+    public static ClassificacaoService getClassificacaoService() {
         return new ClassificacaoServiceImpl();
     }
-    
-    public static ContatoService getContatoService(){
+
+    public static ContatoService getContatoService() {
         return new ContatoServiceImpl();
     }
-    
-    public static EnderecoService getEnderecoService(){
+
+    public static EnderecoService getEnderecoService() {
         return new EnderecoServiceImpl();
     }
-    
-    public static LoginService getLoginService(){
+
+    public static LoginService getLoginService() {
         return new LoginServiceImpl();
     }
-    
-    public static LivroService getLivroService(){
+
+    public static LivroService getLivroService() {
         return new LivroServiceImpl();
-    }       
+    }
 }

@@ -22,8 +22,8 @@ public class LoginServiceImpl implements LoginService {
 
         return b;
     }
-    
-                @Override
+
+    @Override
     public boolean exclui(long idLogin) {
         boolean b = false;
 
@@ -67,21 +67,27 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public boolean verificaUsuario(String usuario) {
         boolean result = false;
-        result = this.loginDAO.verificaUsuario(usuario);
+        if (usuario != null) {
+            result = this.loginDAO.verificaUsuario(usuario);
+        }
         return result;
     }
 
     @Override
     public String consultaLoginUsuario(long idPessoa) {
-        String result;
-        result = this.loginDAO.consultaLoginUsuario(idPessoa);
+        String result = null;
+        if (idPessoa > 0) {
+            result = this.loginDAO.consultaLoginUsuario(idPessoa);
+        }
         return result;
     }
 
     @Override
     public long consultaLongUsuario(long idPessoa) {
-        long result;
-        result = this.loginDAO.consultaLongUsuario(idPessoa);
+        long result = -1;
+        if (idPessoa > 0) {
+            result = this.loginDAO.consultaLongUsuario(idPessoa);
+        }
         return result;
     }
 }
