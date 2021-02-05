@@ -67,6 +67,7 @@ public class Sistema extends javax.swing.JFrame {
         cliente = new javax.swing.JMenu();
         cadastrousuario = new javax.swing.JMenuItem();
         lista = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -127,6 +128,9 @@ public class Sistema extends javax.swing.JFrame {
         cliente.add(lista);
 
         jMenuBar2.add(cliente);
+
+        jMenu1.setText("AJUDA");
+        jMenuBar2.add(jMenu1);
 
         setJMenuBar(jMenuBar2);
 
@@ -221,6 +225,7 @@ public class Sistema extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem cadastrousuario;
     private javax.swing.JMenu cliente;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem2;
