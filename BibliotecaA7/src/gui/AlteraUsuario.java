@@ -42,6 +42,12 @@ public class AlteraUsuario extends javax.swing.JInternalFrame {
         String usuarioTemp = usuario.getText();
         String senhaTemp = senha.getText();
 
+        nomeTemp = validacao.formatString_E(nomeTemp.trim());
+        cpfTemp = validacao.formatString(cpfTemp.trim());
+        dataTemp = validacao.formatString(dataTemp.trim());
+        usuarioTemp = validacao.formatString_E(usuarioTemp.trim());
+        senhaTemp = validacao.formatString_E(senhaTemp.trim());
+
         if (nomeTemp.isEmpty()
                 || cpfTemp.isEmpty()
                 || dataTemp.isEmpty()
@@ -50,11 +56,6 @@ public class AlteraUsuario extends javax.swing.JInternalFrame {
                 || !validacao.isDateValid(dataTemp)) {
             JOptionPane.showMessageDialog(null, "Dados Inválidos - *dd/mm/AAAA");
         } else {
-            nomeTemp = validacao.formatString_E(nomeTemp);
-            cpfTemp = validacao.formatString(cpfTemp);
-            dataTemp = validacao.formatString(dataTemp);
-            usuarioTemp = validacao.formatString_E(usuarioTemp);
-            senhaTemp = validacao.formatString_E(senhaTemp);
 
             boolean salvar = true;
 

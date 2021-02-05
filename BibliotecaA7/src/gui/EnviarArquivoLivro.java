@@ -91,11 +91,11 @@ public class EnviarArquivoLivro extends javax.swing.JInternalFrame {
                         String[][] dados = new String[i][6];
                         i = 0;
                         while (scanner.hasNext()) {
-                            dados[i][0] = validacao.formatString(scanner.next().trim());
+                            dados[i][0] = validacao.formatString_E(scanner.next().trim());
                             dados[i][1] = validacao.formatString(scanner.next().trim());
                             dados[i][2] = validacao.formatString(scanner.next().trim());
                             dados[i][3] = validacao.formatString(scanner.next().trim());
-                            dados[i][4] = validacao.formatString(scanner.next().trim());
+                            dados[i][4] = validacao.formatString_E(scanner.next().trim());
                             i++;
                         }
 

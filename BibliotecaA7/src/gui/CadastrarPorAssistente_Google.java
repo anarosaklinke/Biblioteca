@@ -265,11 +265,8 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
 
         isbn1.setEditable(false);
 
-        autores.setEditable(false);
-
         jLabel12.setText("Autores");
 
-        dataPub1.setEditable(false);
         dataPub1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dataPub1ActionPerformed(evt);
@@ -283,8 +280,6 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
         jLabel10.setText("Data de Publicação");
 
         jLabel11.setText("Semelhante");
-
-        titulo1.setEditable(false);
 
         jLabel2.setText("Classificação");
 
@@ -406,9 +401,12 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        cadastrarLivro(titulo1.getText(), dataPub1.getText(), autores.getText(),
+        cadastrarLivro(
+                validacao.formatString(titulo1.getText()), 
+                validacao.formatString(dataPub1.getText()),
+                validacao.formatString(autores.getText()),
                 validacao.formatString_E(isbn1.getText()),
-                validacao.formatString(semelhante.getText().trim()));
+                validacao.formatString_E(semelhante.getText().trim()));
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void dataPub1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataPub1ActionPerformed

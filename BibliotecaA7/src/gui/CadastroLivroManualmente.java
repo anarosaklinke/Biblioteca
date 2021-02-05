@@ -52,17 +52,17 @@ public class CadastroLivroManualmente extends javax.swing.JInternalFrame {
 
     private void cadLivro() {
         LivroService entity = ServiceFactory.getLivroService();
-        String isbnTemp = validacao.formatString(isbn.getText());
+        String isbnTemp = validacao.formatString_E(isbn.getText());
 
         long idIsbn = entity.recuperaIsbn(isbnTemp);
 
         Livro livro;
         long idPessoa = entity.verifica(Sistema.getUsuario());
 
-        String autoresTemp = autores.getText().trim();
-        String semelhanteTemp = semelhante.getText().trim();
-        String dataTemp = dataPub.getText().trim();
-        String tituloTemp = titulo.getText().trim();
+        String autoresTemp = validacao.formatString(autores.getText().trim());
+        String semelhanteTemp = validacao.formatString_E(semelhante.getText().trim());
+        String dataTemp = validacao.formatString(dataPub.getText().trim());
+        String tituloTemp = validacao.formatString(titulo.getText().trim());
         String classTemp = (classifica.getSelectedItem()).toString();
 
         if (idIsbn == -1) {

@@ -107,12 +107,12 @@ public class ListaLivros extends javax.swing.JInternalFrame {
     }
 
     private void pesquisar() {
-        String chave = pesquisa.getText().trim();
+        String chave = validacao.formatString(pesquisa.getText().trim());
 
         if (chave.isEmpty()) {
             exibir();
         } else {
-            exibirPesquisa(validacao.formatString(chave));
+            exibirPesquisa(chave);
         }
     }
 

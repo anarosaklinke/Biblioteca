@@ -50,12 +50,11 @@ public class CadastrarClassificacao extends javax.swing.JInternalFrame {
 
     private void cadastrarClass() {
 
-        String nome = nomeT.getText().trim();
+        String nome = validacao.formatString_E(nomeT.getText().trim());
 
         if (nome.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Digite um nome");
         } else {
-            nome = validacao.formatString_E(nome);
             ClassificacaoService entity = ServiceFactory.getClassificacaoService();
             long idOld = entity.verifica(nome);
 

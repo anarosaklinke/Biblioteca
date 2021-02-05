@@ -36,11 +36,11 @@ public class CadastrarUsuario extends javax.swing.JInternalFrame {
         PessoaService entity = ServiceFactory.getPessoaService();
         LoginService entity2 = ServiceFactory.getLoginService();
 
-        String nomeTemp = nome.getText().trim();
-        String cpfTemp = cpf.getText().trim();
-        String dataTemp = dataNascimento.getText().trim();
-        String usuarioTemp = usuario.getText().trim();
-        String senhaTemp = senha.getText().trim();
+        String nomeTemp = validacao.formatString_E(nome.getText().trim());
+        String cpfTemp = validacao.formatString(cpf.getText().trim());
+        String dataTemp = validacao.formatString(dataNascimento.getText().trim());
+        String usuarioTemp = validacao.formatString_E(usuario.getText().trim());
+        String senhaTemp = validacao.formatString_E(senha.getText().trim());
 
         if (nomeTemp.isEmpty()
                 || cpfTemp.isEmpty()
@@ -55,13 +55,6 @@ public class CadastrarUsuario extends javax.swing.JInternalFrame {
             } else if (entity.verificaCPF(cpfTemp)) {
                 JOptionPane.showMessageDialog(null, "CPF já cadastrado");
             } else {
-
-                nomeTemp = validacao.formatString_E(nomeTemp);
-                cpfTemp = validacao.formatString(cpfTemp);
-                dataTemp = validacao.formatString(dataTemp);
-                usuarioTemp = validacao.formatString_E(usuarioTemp);
-                senhaTemp = validacao.formatString_E(senhaTemp);
-
                 long idPessoa;
 
                 idPessoa = entity.recuperaUltimoId();

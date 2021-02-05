@@ -39,6 +39,11 @@ public class validacao {
             String semelhante, String data, String titulo) {
 
         Livro livro = null;
+        
+        isbn = formatString_E(isbn);
+        semelhante = formatString_E(semelhante);
+        data = formatString(data);
+        titulo = formatString(titulo);
 
         if (autores.isEmpty()
                 || isbn.isEmpty()
@@ -71,11 +76,11 @@ public class validacao {
                 || tituloTemp.isEmpty()) {
             return livro;
         } else {
-            autoresTemp = validacao.formatString(autoresTemp);
-            isbnTemp = validacao.formatString(isbnTemp);
-            semelhanteTemp = validacao.formatString(semelhanteTemp);
-            dataTemp = validacao.formatString(dataTemp);
-            tituloTemp = validacao.formatString(tituloTemp);
+            autoresTemp = formatString(autoresTemp);
+            isbnTemp = formatString(isbnTemp);
+            semelhanteTemp = formatString(semelhanteTemp);
+            dataTemp = formatString(dataTemp);
+            tituloTemp = formatString(tituloTemp);
 
             ClassificacaoService entity = ServiceFactory.getClassificacaoService();
 

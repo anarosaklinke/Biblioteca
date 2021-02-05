@@ -175,9 +175,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="autores">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
       </AuxValues>
@@ -188,9 +185,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="dataPub1">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dataPub1ActionPerformed"/>
       </Events>
@@ -219,9 +213,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="titulo1">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
       </AuxValues>
