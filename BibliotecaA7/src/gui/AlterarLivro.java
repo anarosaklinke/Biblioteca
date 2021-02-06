@@ -60,7 +60,6 @@ public class AlterarLivro extends javax.swing.JInternalFrame {
         String semelhanteTemp = semelhante.getText().trim();
         String dataTemp = dataPub.getText().trim();
         String tituloTemp = titulo.getText().trim();
-        System.out.println(autores.getText().trim());
         String classTemp = (classifica.getSelectedItem()).toString();
 
         livro = validacao.validaLivro(idIsbn, autoresTemp, isbnTemp,

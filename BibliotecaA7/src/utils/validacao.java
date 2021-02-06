@@ -47,7 +47,6 @@ public class validacao {
 
         if (autores.isEmpty()
                 || isbn.isEmpty()
-                || semelhante.isEmpty()
                 || data.isEmpty()
                 || titulo.isEmpty()) {
             return livro;

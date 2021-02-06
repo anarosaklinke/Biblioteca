@@ -73,8 +73,6 @@ public class AlteraUsuario extends javax.swing.JInternalFrame {
             long idOld = entity2.consultaLongUsuario(idOldPessoa);
 
             String loginUsuario = entity2.consultaLoginUsuario(idOldPessoa);
-            System.err.println(loginUsuario);
-            System.err.println(usuarioTemp);
 
             if (!loginUsuario.equals(usuarioTemp)) {
                 if (entity2.verificaUsuario(usuarioTemp)) {

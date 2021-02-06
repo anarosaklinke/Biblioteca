@@ -20,11 +20,6 @@ public interface LivroDAO {
     final String LIVRO_PESSOA = "SELECT * FROM livro WHERE "
             + "Pessoa_idPessoa = ?";
 
-    final String UPDATE = "UPDATE Livro SET "
-            + "titulo = ?, Classificacao_idClassificacao = ?, "
-            + "dataPublicacao = ?, autores = ?, Pessoa_idPessoa = ? "
-            + "WHERE idLivro = ? ";
-
     final String UPDATE_S = "UPDATE Livro SET "
             + "titulo = ?, semelhantes = ?, Classificacao_idClassificacao = ?, "
             + "dataPublicacao = ?, autores = ?, Pessoa_idPessoa = ? "
