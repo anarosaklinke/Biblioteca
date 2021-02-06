@@ -162,7 +162,8 @@ public class EnviarArquivoLivro extends javax.swing.JInternalFrame {
 
             Livro livro = null;
             for (int i = 0; i < tabelaLivros.getRowCount(); i++) {
-                Long idIsbn = entity.recuperaIsbn((String) tabelaLivros.getModel().getValueAt(i, 1));
+                Long idIsbn = entity.recuperaIsbn(validacao.formatString_E(
+                        (String) tabelaLivros.getModel().getValueAt(i, 1)));
 
                 if (idIsbn == -1) {
                     idIsbn = entity.recuperaUltimoId() + 1;

@@ -402,7 +402,7 @@ public class CadastrarPorAssistente_Google extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         cadastrarLivro(
-                validacao.formatString(titulo1.getText()), 
+                validacao.formatString(titulo1.getText()),
                 validacao.formatString(dataPub1.getText()),
                 validacao.formatString(autores.getText()),
                 validacao.formatString_E(isbn1.getText()),

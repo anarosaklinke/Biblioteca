@@ -28,13 +28,15 @@ public class CadastrarEndereco extends javax.swing.JInternalFrame {
     }
 
     private void cadEnd() {
-        String cidadeT = cidade.getText().trim();
-        String ruaT = rua.getText().trim();
-        String estadoT = estado.getText().trim();
-        String paisT = pais.getText().trim();
-        String cepT = cep.getText().trim();
-        String numeroT = numero.getText().trim();
-        String bairroT = bairro.getText().trim();
+        String cidadeT = validacao.formatString_E(cidade.getText().trim());
+        String ruaT = validacao.formatString_E(rua.getText().trim());
+        String estadoT = validacao.formatString_E(estado.getText().trim());
+        String paisT = validacao.formatString_E(pais.getText().trim());
+        
+        String cepT = validacao.formatString(cep.getText().trim());
+        
+        String numeroT = validacao.formatString_E(numero.getText().trim());
+        String bairroT = validacao.formatString_E(bairro.getText().trim());
 
         if ((cidadeT.isEmpty())
                 || (ruaT.isEmpty())
@@ -59,13 +61,13 @@ public class CadastrarEndereco extends javax.swing.JInternalFrame {
 
                 Endereco endereco = new Endereco(idEndereco);
 
-                endereco.setCep(validacao.formatString(cepT));
-                endereco.setCidade(validacao.formatString_E(cidadeT));
-                endereco.setEstado(validacao.formatString_E(estadoT));
-                endereco.setNumero(Integer.parseInt(validacao.formatString_E(numeroT)));
-                endereco.setRua(validacao.formatString_E(ruaT));
-                endereco.setPais(validacao.formatString_E(paisT));
-                endereco.setBairro(validacao.formatString_E(bairroT));
+                endereco.setCep(cepT);
+                endereco.setCidade(cidadeT);
+                endereco.setEstado(estadoT);
+                endereco.setNumero(Integer.parseInt(numeroT));
+                endereco.setRua(ruaT);
+                endereco.setPais(paisT);
+                endereco.setBairro(bairroT);
 
                 PessoaService entity2 = ServiceFactory.getPessoaService();
 

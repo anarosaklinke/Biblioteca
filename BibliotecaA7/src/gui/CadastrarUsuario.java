@@ -91,7 +91,6 @@ public class CadastrarUsuario extends javax.swing.JInternalFrame {
                 LocalDate data4 = data.toLocalDate();
                 Period p = Period.between(data4, data3);
                 idade = p.getYears();
-                System.out.println("idade = " + idade);
 
                 pessoa.setSexo((sexo.getSelectedItem()).toString());
                 pessoa.setCpf(cpfTemp);

@@ -28,10 +28,16 @@ public class CadastrarContato extends javax.swing.JInternalFrame {
     }
 
     private void cadContato() {
-        if ((residencial.getText().trim().isEmpty())
-                || (comercial.getText().trim().isEmpty())
-                || (email.getText().trim().isEmpty())
-                || (celular.getText().trim().isEmpty())) {
+        
+        String celularTemp = validacao.formatString(celular.getText().trim());
+        String emailTemp = validacao.formatString(email.getText().trim());
+        String comercialTemp = validacao.formatString(comercial.getText().trim());
+        String residencialTemp = validacao.formatString(residencial.getText().trim());
+        
+        if ((celularTemp.isEmpty())
+                || (emailTemp.isEmpty())
+                || (comercialTemp.isEmpty())
+                || (residencialTemp.trim().isEmpty())) {
             JOptionPane.showMessageDialog(null, "Os campos com são OBRIGATÒRIOS");
         } else {
 
@@ -46,10 +52,10 @@ public class CadastrarContato extends javax.swing.JInternalFrame {
 
             Contato contato = new Contato(idContato);
 
-            contato.setCelular(validacao.formatString(celular.getText().trim()));
-            contato.setEmail(validacao.formatString(email.getText().trim()));
-            contato.setTelCom(validacao.formatString(comercial.getText().trim()));
-            contato.setTelRes(validacao.formatString(residencial.getText()));
+            contato.setCelular(celularTemp);
+            contato.setEmail(emailTemp);
+            contato.setTelCom(comercialTemp);
+            contato.setTelRes(residencialTemp);
 
             PessoaService entity2 = ServiceFactory.getPessoaService();
 
@@ -68,10 +74,10 @@ public class CadastrarContato extends javax.swing.JInternalFrame {
             }
 
             if (b == false) {
-                System.out.println("Erro: Endereco não foi salvo no banco de dados ");
+                System.out.println("Erro: Contato não foi salvo no banco de dados ");
             }
 
-            JOptionPane.showMessageDialog(null, "Endereco Cadastrado!");
+            JOptionPane.showMessageDialog(null, "Contato Cadastrado!");
 
             this.dispose();
 

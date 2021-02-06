@@ -416,12 +416,11 @@ public class CadastrarPorAssistente extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         cadastrarLivro(
-                validacao.formatString(titulo1.getText()), 
+                validacao.formatString(titulo1.getText()),
                 validacao.formatString(dataPub1.getText()),
-                validacao.formatString(autores1.getText()), 
+                validacao.formatString(autores1.getText()),
                 validacao.formatString_E(isbn1.getText()),
                 validacao.formatString_E(semelhante.getText().trim()));
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void dataPub1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataPub1ActionPerformed

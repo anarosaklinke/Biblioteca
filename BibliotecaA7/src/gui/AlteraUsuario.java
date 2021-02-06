@@ -36,6 +36,7 @@ public class AlteraUsuario extends javax.swing.JInternalFrame {
     private void alteraUsuario() {
         PessoaService entity = ServiceFactory.getPessoaService();
         LoginService entity2 = ServiceFactory.getLoginService();
+        
         String nomeTemp = nome.getText();
         String cpfTemp = cpf.getText();
         String dataTemp = dataNascimento.getText();
@@ -43,8 +44,10 @@ public class AlteraUsuario extends javax.swing.JInternalFrame {
         String senhaTemp = senha.getText();
 
         nomeTemp = validacao.formatString_E(nomeTemp.trim());
+        
         cpfTemp = validacao.formatString(cpfTemp.trim());
         dataTemp = validacao.formatString(dataTemp.trim());
+        
         usuarioTemp = validacao.formatString_E(usuarioTemp.trim());
         senhaTemp = validacao.formatString_E(senhaTemp.trim());
 
